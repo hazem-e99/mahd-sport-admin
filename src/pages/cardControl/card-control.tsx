@@ -312,15 +312,30 @@ const CardControl: React.FC = () => {
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 onChange={handleFileChange}
               />
-              <Dropdown as={ButtonGroup}>
-                <Button variant="outline-secondary" className="main-button" onClick={handleExportExcel}>
-                  <FileIcon className="me-2" />
-                  {getValue("excel")}
+              <Dropdown as={ButtonGroup} className="excel-split-dropdown">
+                <Button variant="light" className="excel-main-btn" onClick={handleExportExcel}>
+                  <span className="excel-btn-label">{getValue("excel")}</span>
                 </Button>
-                <Dropdown.Toggle split variant="outline-secondary" id="dropdown-split-basic" className="main-button" />
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={handleImportClick}>{getValue("import_excel")}</Dropdown.Item>
-                  <Dropdown.Item onClick={handleExportExcel}>{getValue("export_excel")}</Dropdown.Item>
+                <Dropdown.Toggle split variant="light" id="dropdown-split-excel" className="excel-toggle-btn" />
+                <Dropdown.Menu className="excel-dropdown-menu">
+                  <Dropdown.Item onClick={handleImportClick} className="excel-menu-item">
+                    <span className="menu-item-icon upload">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3 17V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                    </span>
+                    <span>{getValue("import_excel")}</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleExportExcel} className="excel-menu-item">
+                    <span className="menu-item-icon download">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3V15M12 15L8 11M12 15L16 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3 17V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      </svg>
+                    </span>
+                    <span>{getValue("export_excel")}</span>
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Button className="main-button active" onClick={handleAddPlayer}>

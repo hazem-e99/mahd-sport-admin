@@ -2,7 +2,7 @@
 @use '../../../../styles/mixins' as *;
 
 .view-kpi-modal {
-    font-family: "Mahd Favorit Arabic", sans-serif !important;
+    font-family: inherit !important;
 
     .modal-content {
         border: none;
@@ -12,7 +12,7 @@
     }
 
     .kpi-modal-header {
-        background: #f8f9fa;
+        background: $color-gray-100;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         padding: 20px 24px;
 
@@ -25,7 +25,7 @@
             margin: 0 12px;
             width: 1px;
             height: 15px;
-            background: #ccc;
+            background: $color-gray-200;
             display: inline-block;
         }
 
@@ -38,7 +38,7 @@
 
     .kpi-modal-body {
         padding: 30px;
-        background: #fff;
+        background: $color-white;
 
         .section-title {
             font-size: 1.1rem;
@@ -82,7 +82,7 @@
 
             .progress-wrapper {
                 height: 8px;
-                background: #f0f0f0;
+                background: $color-gray-500;
                 border-radius: 10px;
                 overflow: hidden;
                 position: relative;
@@ -92,6 +92,31 @@
                     border-radius: 10px;
                     transition: width 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
                     animation: progressPop 0.8s ease-out;
+
+                    &.kpi-cognition {
+                        background-color: $color-primary;
+                        box-shadow: 0 0 10px rgba($color-primary, 0.3);
+                    }
+
+                    &.kpi-technical {
+                        background-color: $color-secondary;
+                        box-shadow: 0 0 10px rgba($color-secondary, 0.3);
+                    }
+
+                    &.kpi-physical {
+                        background-color: $alert-green-color;
+                        box-shadow: 0 0 10px rgba($alert-green-color, 0.3);
+                    }
+
+                    &.kpi-psychology {
+                        background-color: $alert-blue-color;
+                        box-shadow: 0 0 10px rgba($alert-blue-color, 0.3);
+                    }
+
+                    &.kpi-medical {
+                        background-color: $alert-red-color;
+                        box-shadow: 0 0 10px rgba($alert-red-color, 0.3);
+                    }
                 }
             }
         }
@@ -104,7 +129,7 @@
 
         .video-player-wrapper {
             flex: 1;
-            background: #000;
+            background: $color-black;
             border-radius: 12px;
             overflow: hidden;
             aspect-ratio: 16/9;
@@ -120,7 +145,7 @@
             }
 
             .no-video-placeholder {
-                color: #fff;
+                color: $color-white;
                 font-style: italic;
                 opacity: 0.6;
             }

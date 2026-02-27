@@ -15,11 +15,11 @@ const ViewKPIModal = ({ show, onHide, player }: ViewKPIModalProps) => {
     if (!player) return null;
 
     const kpis = [
-        { label: getValue("cognition") || "Cognition", value: player.kpi.cognition, color: "#773DBD" },
-        { label: getValue("technical") || "Technical", value: player.kpi.technical, color: "#FF5000" },
-        { label: getValue("physical") || "Physical", value: player.kpi.physical, color: "#07C37B" },
-        { label: getValue("psychology") || "Psychology", value: player.kpi.psychology, color: "#229CBE" },
-        { label: getValue("medical") || "Medical", value: player.kpi.medical, color: "#C30734" },
+        { label: getValue("cognition") || "Cognition", value: player.kpi.cognition, class: "kpi-cognition" },
+        { label: getValue("technical") || "Technical", value: player.kpi.technical, class: "kpi-technical" },
+        { label: getValue("physical") || "Physical", value: player.kpi.physical, class: "kpi-physical" },
+        { label: getValue("psychology") || "Psychology", value: player.kpi.psychology, class: "kpi-psychology" },
+        { label: getValue("medical") || "Medical", value: player.kpi.medical, class: "kpi-medical" },
     ];
 
     return (
@@ -51,11 +51,9 @@ const ViewKPIModal = ({ show, onHide, player }: ViewKPIModalProps) => {
                                     </div>
                                     <div className="progress-wrapper">
                                         <div
-                                            className="custom-progress-bar"
+                                            className={`custom-progress-bar ${kpi.class}`}
                                             style={{
-                                                width: `${kpi.value}%`,
-                                                backgroundColor: kpi.color,
-                                                boxShadow: `0 0 10px ${kpi.color}44`
+                                                width: `${kpi.value}%`
                                             }}
                                         />
                                     </div>

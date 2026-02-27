@@ -8,6 +8,133 @@
   font-size: 0.9rem;
 }
 
+// Excel Split Dropdown Styles — Modern Redesign
+.excel-split-dropdown {
+  background-color: $color-white;
+  border: 1.5px solid $color-primary-light;
+  border-radius: 10px;
+  overflow: visible;
+  transition: $transition;
+  height: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+
+  &:hover {
+    border-color: $color-primary;
+    box-shadow: 0 2px 10px rgba($color-primary, 0.12);
+  }
+
+  .btn {
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    font-size: $font-size-md;
+    font-weight: 500;
+    color: $text-primary-color;
+    transition: $transition;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-primary-light;
+      color: $color-primary;
+      box-shadow: none !important;
+    }
+  }
+
+  .excel-btn-label {
+    font-weight: 600;
+    font-size: $font-size-md;
+    color: $color-primary;
+    letter-spacing: 0.01em;
+  }
+
+  .excel-main-btn {
+    border-inline-end: 1.5px solid $color-primary-light;
+    padding-inline-end: 14px;
+  }
+
+  .excel-toggle-btn {
+    padding-inline: 10px;
+    color: $color-primary;
+
+    &::after {
+      display: inline-block;
+      margin-left: 0;
+      vertical-align: middle;
+      border-top: 0.32em solid;
+      border-right: 0.32em solid transparent;
+      border-bottom: 0;
+      border-left: 0.32em solid transparent;
+      color: $color-primary;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-primary-light !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .excel-dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid $color-primary-light;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10), 0 2px 6px rgba($color-primary, 0.07);
+    padding: 6px;
+    min-width: 175px;
+    margin-top: 6px !important;
+    animation: dropdownFadeIn 0.15s ease;
+
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .excel-menu-item {
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: $font-size-md;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #374151;
+      transition: $transition;
+
+      &:hover {
+        background-color: $color-primary-light;
+        color: $color-primary;
+
+        .menu-item-icon { color: $color-primary; }
+      }
+
+      .menu-item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        transition: $transition;
+        flex-shrink: 0;
+        background-color: $color-primary-light;
+        color: $color-primary;
+      }
+    }
+  }
+}
+
+html[dir="rtl"] {
+  .excel-split-dropdown {
+    .excel-main-btn {
+      border-inline-end: 1.5px solid $color-primary-light;
+    }
+  }
+}
+
 // Avatar styles
 .avatar {
   width: 40px;
@@ -77,6 +204,7 @@
 
     // Body Section
     .card-body {
+
       // Filter Container
       .filter-container {
         @include flex-bar-between;
@@ -249,7 +377,7 @@
                   color: var(--Gray-600, #535862);
                   text-overflow: ellipsis;
                   font-weight: 400;
-                  line-height: 20px; 
+                  line-height: 20px;
                 }
               }
             }
@@ -329,7 +457,7 @@
       height: 0;
       position: absolute;
 
-      &:checked + .switch-label {
+      &:checked+.switch-label {
         background-color: #10b981;
         border-color: #10b981;
 
@@ -344,12 +472,12 @@
         }
       }
 
-      &:disabled + .switch-label {
+      &:disabled+.switch-label {
         opacity: 0.6;
         cursor: not-allowed;
       }
 
-      &:focus + .switch-label {
+      &:focus+.switch-label {
         box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
       }
     }
@@ -408,7 +536,7 @@
     right: -30px;
     top: 50%;
     transform: translateY(-50%);
-    
+
     .spinner-border {
       width: 16px;
       height: 16px;
