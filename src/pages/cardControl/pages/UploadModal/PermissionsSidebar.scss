@@ -1,0 +1,348 @@
+@use "@/styles/variables" as *;
+
+// Permissions Offcanvas Customization
+.permissions-offcanvas {
+  width: 320px !important;
+  position: absolute !important;
+  height: 100% !important;
+  z-index: 1050 !important;
+  box-shadow: -5px 0 25px rgba($color-black, 0.15);
+
+  // Header
+  .permissions-header {
+    border-bottom: 1px solid $btn-icon-border-color;
+    position: relative;
+    
+    .file-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      background: $color-gray-300;
+      border-radius: $border-radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+
+      .file-thumbnail {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+
+        &.image-preview {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: $border-radius-md;
+        }
+      }
+    }
+
+    .file-details {
+      flex: 1;
+      min-width: 0; // Important for text-overflow to work in flexbox
+      
+      .file-name {
+        font-size: $font-size-lg;
+        font-weight: 600;
+        color: $text-primary-color;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+
+      .file-meta {
+        font-size: $font-size-sm;
+        color: $color-gray-400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  // Body
+  .permissions-body {
+    .section-title {
+      font-size: $font-size-sm;
+      font-weight: 600;
+      color: $color-gray-400;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    .access-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border: 2px solid $btn-icon-border-color;
+      border-radius: $border-radius-md;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: $transition;
+      background: transparent;
+
+      &:hover {
+        border-color: rgba($color-primary, 0.3);
+        background: $color-primary-light;
+      }
+
+      &.selected {
+        border-color: $color-primary;
+        background: $color-primary-light;
+      }
+
+      input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        accent-color: $color-primary;
+        cursor: pointer;
+      }
+
+      .option-content {
+        flex: 1;
+
+        .option-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 4px;
+
+          .option-icon {
+            width: 20px;
+            height: 20px;
+            filter: $filter-icon-primary;
+          }
+
+          .option-title {
+            font-size: $font-size-lg;
+            font-weight: 600;
+            color: $text-primary-color;
+          }
+        }
+
+        .option-description {
+          font-size: $font-size-sm;
+          color: $color-gray-400;
+          margin: 0;
+        }
+      }
+    }
+
+    // Roles Section
+    .roles-section {
+      margin-top: 24px;
+      animation: fadeIn 0.3s ease;
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .roles-label {
+        display: block;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $color-gray-400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+
+        .required {
+          color: $alert-red-color;
+        }
+      }
+
+      // React Select Styling
+      .roles-select {
+        &__control {
+          border: 2px solid $btn-icon-border-color;
+          border-radius: $border-radius-md;
+          min-height: 44px;
+          box-shadow: none;
+          background: transparent;
+
+          &:hover {
+            border-color: rgba($color-primary, 0.5);
+          }
+
+          &--is-focused {
+            border-color: $color-primary;
+            box-shadow: 0 0 0 1px $color-primary;
+          }
+        }
+
+        &__menu {
+          border-radius: $border-radius-md;
+          box-shadow: 0 4px 20px rgba($color-black, 0.15);
+          border: 1px solid $btn-icon-border-color;
+          z-index: 10;
+        }
+
+        &__option {
+          padding: 10px 16px;
+          cursor: pointer;
+
+          &--is-focused {
+            background: $color-primary-light;
+          }
+
+          &--is-selected {
+            background: $color-primary;
+            color: $color-gray-900;
+          }
+        }
+
+        &__multi-value {
+          display: none;
+        }
+
+        &__placeholder {
+          color: $color-gray-400;
+        }
+
+        &__input-container {
+          color: $text-primary-color;
+        }
+
+        &__indicator-separator {
+          display: none;
+        }
+
+        &__dropdown-indicator {
+          color: $color-gray-400;
+
+          &:hover {
+            color: $text-primary-color;
+          }
+        }
+      }
+
+      // Selected Roles Tags
+      .selected-roles-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+
+        .role-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          background: $color-primary;
+          color: $color-gray-900;
+          border-radius: 20px;
+          font-size: $font-size-sm;
+          font-weight: 500;
+
+          .remove-tag {
+            background: transparent;
+            border: none;
+            color: $color-gray-900;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.7;
+            transition: $transition;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Footer
+  .permissions-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid $btn-icon-border-color;
+    background: $color-gray-900;
+
+    .btn-save {
+      background: $color-primary;
+      border-color: $color-primary;
+
+      &:hover:not(:disabled) {
+        background: darken($color-primary, 10%);
+        border-color: darken($color-primary, 10%);
+      }
+    }
+  }
+}
+
+// RTL Support
+html[dir="rtl"] {
+  .permissions-offcanvas {
+    box-shadow: 5px 0 25px rgba($color-black, 0.15);
+    
+    .offcanvas-header {
+      flex-direction: row-reverse;
+      
+      .btn-close {
+        position: absolute;
+        left: 16px;
+        right: auto;
+        margin: 0;
+      }
+      
+      .offcanvas-title {
+        flex-direction: row-reverse;
+        width: 100%;
+        padding-left: 40px;
+        padding-right: 0;
+      }
+    }
+
+    .permissions-body {
+      text-align: right;
+
+      .access-option {
+        flex-direction: row-reverse;
+        
+        .option-content {
+          text-align: right;
+          
+          .option-header {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+          }
+          
+          .option-description {
+            text-align: right;
+          }
+        }
+      }
+      
+      .roles-section {
+        .roles-label {
+          text-align: right;
+        }
+        
+        .selected-roles-tags {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .permissions-footer {
+      flex-direction: row-reverse;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.react-datepicker-wrapper {
+  width: 100%;
+
+  &:focus-visible {
+    outline: none !important;
+  }
+
+  input {
+    padding: 0;
+  }
+}
+
+svg.react-datepicker__calendar-icon {
+  right: 0;
+  top: 5px;
+  padding: 0 !important;
+  cursor: pointer;
+  html[dir="rtl"] & {
+    right: unset;
+    left: 0;
+  }
+}

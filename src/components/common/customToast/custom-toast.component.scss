@@ -1,0 +1,48 @@
+// @use './styles/variables' as *;
+@use '@/styles/variables' as *;
+
+.toast-success {
+    &-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 500px;
+
+        span {
+            svg {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        div {
+            h6 {
+                font-size: 20px;
+                font-weight: 600;
+                color: $color-light-black;
+            }
+        }
+    }
+    &-footer{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+          padding-inline-end: 80px;
+
+        a{
+        text-decoration: none;  
+        color: $color-gray-400;
+        &.active{
+            color: $color-primary;
+            font-weight: bold;
+        }
+        }
+    }
+}
+
+.Toastify__toast {
+    width: 450px;
+}

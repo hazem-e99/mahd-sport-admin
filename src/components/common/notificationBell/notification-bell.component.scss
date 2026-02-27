@@ -1,0 +1,35 @@
+@use '@/styles/variables' as *;
+
+.notification-bell {
+    width: 35px;
+    height: 35px;
+    // min-width: 45px;
+    // min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #e8e8e8;
+    cursor: pointer;
+
+    &-icon {
+        position: relative;
+      /*   min-width: 20px;
+        min-height: 20px; */
+        &-dot {
+            background-color: $notification-background-color;
+            color: $color-white;
+            position: absolute;
+            top: -2px;
+            right: -3px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            display: block;
+            text-align: center;
+            font-weight: 600;
+            font-size: 8px;
+           
+        }
+    }
+}

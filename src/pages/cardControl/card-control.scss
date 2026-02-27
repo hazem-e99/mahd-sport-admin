@@ -1,0 +1,418 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// Order number styles
+.order-number {
+  font-weight: 500;
+  color: var(--bs-gray-700);
+  font-size: 0.9rem;
+}
+
+// Avatar styles
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-initials {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--Primary-Color-50, #f2ecf9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+// Main Container
+.card-control-page {
+  .card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    // Header Section
+    .card-header {
+      border-bottom: 1px solid $color-gray-200;
+
+      .header-row {
+        @include flex-bar-between;
+        flex-wrap: wrap;
+
+        h1 {
+          font-size: $font-size-3xl;
+          font-weight: 600;
+          color: $text-primary-color;
+          margin: 0;
+          @include flex-bar-start;
+          gap: 12px;
+
+          .badge {
+            background-color: $color-secondary;
+            color: $color-white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: $font-size-sm;
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    // Body Section
+    .card-body {
+      // Filter Container
+      .filter-container {
+        @include flex-bar-between;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+        border-bottom: 1px solid $color-gray-200;
+        gap: 16px;
+
+        .search-box {
+          flex: 1;
+          max-width: 400px;
+          min-width: 250px;
+
+          .position-relative {
+            position: relative;
+
+            .search-box-icon {
+              position: absolute;
+              left: 12px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: $color-gray-800;
+              z-index: 2;
+              pointer-events: none;
+
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+            }
+
+            .search-box-input {
+              width: 100%;
+              padding: 10px 12px 10px 40px;
+              border: 1px solid $input-border-color;
+              border-radius: $border-radius-sm;
+              font-size: $font-size-md;
+              transition: $transition;
+
+              &:focus {
+                border-color: $color-primary;
+                box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+                outline: none;
+              }
+
+              &::placeholder {
+                color: $color-gray-800;
+              }
+            }
+          }
+        }
+
+        .filter-dropdown {
+          .form-select {
+            min-width: 150px;
+            border: 1px solid $input-border-color;
+            border-radius: $border-radius-sm;
+            padding: 8px 12px;
+            font-size: $font-size-md;
+            background-color: $color-white;
+            transition: $transition;
+
+            &:focus {
+              border-color: $color-primary;
+              box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+              outline: none;
+            }
+          }
+        }
+      }
+
+      // Table Wrapper
+      .table-wrapper {
+        overflow-x: auto;
+
+        // Search States
+        .search-indicator,
+        .search-hint {
+          border-bottom: 1px solid $color-gray-200;
+          background-color: lighten($color-primary, 45%);
+
+          small {
+            color: $color-gray-800;
+            font-style: italic;
+          }
+        }
+
+        .search-hint {
+          background-color: lighten($color-gray-800, 30%);
+        }
+
+        // Loading & Error States
+        .text-center {
+          padding: 40px 20px;
+          font-size: $font-size-lg;
+
+          &.text-danger {
+            color: $alert-red-color !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ===== TABLE STYLES =====
+.card-control-page {
+  .shared-table-container {
+    table {
+      tbody {
+        tr {
+          border-bottom: 1px solid $color-gray-200;
+          transition: $transition;
+
+          &:hover {
+            background-color: $color-gray-100;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          td {
+            padding: 16px 20px;
+            vertical-align: middle;
+            font-size: $font-size-md;
+
+            // Employee Info Cell
+            .employee-info {
+              @include flex-bar-start;
+              gap: 12px;
+
+              .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: $border-radius-circle;
+                overflow: hidden;
+                flex-shrink: 0;
+                @include flex-bar-center;
+
+                img {
+                  @include img-property;
+                  border-radius: $border-radius-circle;
+                }
+              }
+
+              .employee-details {
+                min-width: 0;
+                flex: 1;
+
+                .name {
+                  font-weight: 600;
+                  // color: $text-primary-color;
+                  margin: 0 0 4px 0;
+                  font-size: $font-size-md;
+                  line-height: 1.4;
+                  word-break: break-word;
+                  overflow: hidden;
+                  color: var(--Gray-900, #181d27);
+                  text-overflow: ellipsis;
+                  font-weight: 500;
+                  line-height: 20px;
+                }
+
+                .email {
+                  font-size: $font-size-sm;
+                  margin: 0;
+                  line-height: 1.4;
+                  word-break: break-all;
+                  color: var(--Gray-600, #535862);
+                  text-overflow: ellipsis;
+                  font-weight: 400;
+                  line-height: 20px; 
+                }
+              }
+            }
+
+            // Phone Number Cell
+            .phone-number {
+              font-size: $font-size-md;
+              color: $text-secondary-color;
+            }
+
+            // Job Title Cell
+            .job-title {
+              font-size: $font-size-md;
+              color: $text-secondary-color;
+              font-weight: 500;
+            }
+
+            // Department Cell
+            .department {
+              font-size: $font-size-md;
+              color: $text-secondary-color;
+            }
+
+
+            // Actions Cell
+            .actions-container {
+              @include flex-bar-center;
+              gap: 8px;
+
+              .action-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: $border-radius-sm;
+                transition: $transition;
+                @include flex-bar-center;
+                width: 32px;
+                height: 32px;
+
+                &--edit {
+                  color: $color-gray-800;
+
+                  &:hover {
+                    background-color: $color-gray-100;
+                    color: $color-primary;
+                  }
+
+                  &:focus {
+                    outline: 2px solid $color-primary;
+                    outline-offset: 2px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Custom Status Switch with Text Inside */
+.status-switch-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  .custom-status-switch {
+    position: relative;
+    display: inline-block;
+
+    .switch-input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+
+      &:checked + .switch-label {
+        background-color: #10b981;
+        border-color: #10b981;
+
+        &::before {
+          transform: translateX(49px);
+        }
+
+        .switch-text {
+          color: white;
+          left: 8px;
+          right: auto;
+        }
+      }
+
+      &:disabled + .switch-label {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &:focus + .switch-label {
+        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+      }
+    }
+
+    .switch-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 73px;
+      height: 24px;
+      flex-shrink: 0;
+      background-color: #e5e7eb;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        background-color: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+      }
+
+      .switch-text {
+        font-size: 10px;
+        font-weight: 600;
+        color: #6b7280;
+        z-index: 1;
+        position: absolute;
+        right: 8px;
+        left: auto;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        pointer-events: none;
+      }
+
+      &:hover {
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+      }
+    }
+  }
+
+  .updating-indicator {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    .spinner-border {
+      width: 16px;
+      height: 16px;
+      color: #10b981;
+    }
+  }
+}

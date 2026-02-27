@@ -1,0 +1,407 @@
+@use '@/styles/variables' as *;
+.editor-container {
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
+  &:focus-within {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.2);
+  }
+  
+  &.is-disabled {
+    background-color: #f8f9fa;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ced4da;
+    
+    .toolbar-group {
+      display: flex;
+      align-items: center;
+      margin-right: 0.5rem;
+      
+      &:not(:last-child)::after {
+        content: '';
+        height: 1.5rem;
+        width: 1px;
+        background-color: #ced4da;
+        margin-left: 0.5rem;
+      }
+    }
+    
+    .toolbar-button {
+      background: none;
+      border: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: $border-radius-sm;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: #495057;
+      transition: background-color 0.15s ease-in-out;
+      
+      &:hover:not(:disabled) {
+        background-color: #e9ecef;
+      }
+      
+      &.is-active {
+        background-color: #e9ecef;
+        color: $color-primary;
+      }
+
+      &.remove-image {
+        color: #dc3545;
+        
+        &:hover:not(:disabled) {
+          background-color: rgba(220, 53, 69, 0.1);
+        }
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+    
+    .toolbar-select {
+      padding: 0.25rem 0.5rem;
+      border-radius: $border-radius-sm;
+      border: 1px solid #ced4da;
+      background-color: #fff;
+      cursor: pointer;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      
+      &:focus {
+        outline: none;
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.2);
+      }
+      
+      &:disabled {
+        background-color: #f8f9fa;
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  .editor-content {
+    padding: 1rem;
+    min-height: 200px;
+    background-color: #fff;
+    cursor: text;
+    
+    .ProseMirror {
+      outline: none;
+      line-height: 1.6;
+      cursor: text;
+      
+      &[contenteditable="false"] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      p {
+        margin-bottom: 0.75rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      p.is-empty::before {
+        content: attr(data-placeholder);
+        color: #6c757d;
+        pointer-events: none;
+        height: 0;
+        float: left;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+      
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.25rem; }
+      
+      ul, ol {
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+        
+        li {
+          margin-bottom: 0.25rem;
+        }
+      }
+      
+      blockquote {
+        border-left: 3px solid #ced4da;
+        padding-left: 1rem;
+        margin-left: 0;
+        margin-bottom: 0.75rem;
+        color: #6c757d;
+        font-style: italic;
+      }
+      
+      pre {
+        background-color: #f8f9fa;
+        border-radius: $border-radius-sm;
+        padding: 0.75rem;
+        margin-bottom: 0.75rem;
+        overflow-x: auto;
+        font-family: 'Courier New', Courier, monospace;
+        
+        code {
+          background: none;
+          padding: 0;
+        }
+      }
+      
+      code {
+        background-color: #f8f9fa;
+        border-radius: $border-radius-sm;
+        padding: 0.125rem 0.25rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.875em;
+      }
+      
+      img, .editor-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: $border-radius-sm;
+        margin: 0.5rem 0;
+        display: block;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        
+        &:hover {
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        &.ProseMirror-selectednode {
+          border: 2px solid $color-primary;
+          box-shadow: 0 0 0 1px $color-primary;
+        }
+      }
+      
+      hr {
+        margin: 1rem 0;
+        border: none;
+        border-top: 2px solid #e9ecef;
+      }
+      
+      a {
+        color: $color-primary;
+        text-decoration: underline;
+        
+        &:hover {
+          color: darken($color-primary, 10%);
+        }
+      }
+    }
+  }
+}
+
+// Form integration styles
+.form-control.editor-container {
+  padding: 0;
+  height: auto;
+  
+  &.is-invalid {
+    border-color: #dc3545;
+    
+    &:focus-within {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .editor-container {
+    .editor-toolbar {
+      flex-wrap: wrap;
+      
+      .toolbar-group {
+        margin-bottom: 0.5rem;
+        
+        &:not(:last-child)::after {
+          display: none;
+        }
+      }
+    }
+    
+    .editor-content {
+      min-height: 150px;
+      padding: 0.75rem;
+    }
+  }
+}
+
+// Image Dialog Styles
+.image-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  backdrop-filter: blur(2px);
+}
+
+.image-dialog {
+  background: white;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideIn 0.2s ease-out;
+
+  .image-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #ced4da;
+    background-color: #f8f9fa;
+
+    h5 {
+      margin: 0;
+      font-weight: 600;
+      color: #495057;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #495057;
+      cursor: pointer;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.15s ease-in-out;
+
+      &:hover {
+        background-color: #e9ecef;
+        color: #000;
+      }
+    }
+  }
+
+  .image-dialog-body {
+    padding: 1.5rem;
+
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      padding: 0.75rem;
+      border: 1px solid #ced4da;
+      border-radius: $border-radius-sm;
+      font-size: 0.875rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+      &:focus {
+        outline: none;
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.2);
+      }
+
+      &::placeholder {
+        color: #6c757d;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .image-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #ced4da;
+    background-color: #f8f9fa;
+
+    .btn {
+
+      &.btn-primary {
+        background-color: $color-primary;
+        border-color: $color-primary;
+
+        &:hover:not(:disabled) {
+          background-color: darken($color-primary, 7.5%);
+          border-color: darken($color-primary, 10%);
+        }
+
+        &:disabled {
+          opacity: 0.65;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive dialog
+@media (max-width: 576px) {
+  .image-dialog {
+    width: 95%;
+    margin: 1rem;
+
+    .image-dialog-body {
+      padding: 1rem;
+    }
+
+    .image-dialog-footer {
+      padding: 0.75rem 1rem;
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+}

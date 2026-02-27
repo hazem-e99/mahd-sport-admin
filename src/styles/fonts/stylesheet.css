@@ -1,0 +1,153 @@
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Black.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Black.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Bold.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Bold.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic Book';
+    src: url('./fonts/MahdFavoritArabic-Book.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic Book';
+    src: url('./fonts/MahdFavoritArabic-Book.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Extrabold.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Extrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Light.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Extrabold.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Extrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Extrabold.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Extrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Light.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Medium.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Medium.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Regular.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic';
+    src: url('./fonts/MahdFavoritArabic-Regular.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic Ultra';
+    src: url('./fonts/MahdFavoritArabic-Ultra.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Ultra.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mahd Favorit Arabic Ultra';
+    src: url('./fonts/MahdFavoritArabic-Ultra.woff2') format('woff2'),
+        url('./fonts/MahdFavoritArabic-Ultra.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -1,0 +1,26 @@
+@use '@/styles/variables' as *;
+
+.widget-header {
+    background: $color-gray-200;
+    ;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 9px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .widget-title {
+      color: $text-primary-color;
+      font-family: "Janna LT";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .widget-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }

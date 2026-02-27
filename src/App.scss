@@ -1,0 +1,46 @@
+@use './styles/variables' as *;
+@use 'bootstrap/dist/css/bootstrap.min.css';
+.app-container {
+    &__body {
+        background-color: $color-gray-100;
+        // padding: 0rem 5rem 0rem 5rem;
+        &__content{
+                 width: 100%;
+        max-width: 1400px;
+      
+        margin: auto;
+        }
+    }
+    .button-primary {
+        background-color: $color-primary;
+        color: $color-white;
+        margin-inline-end: 1rem;
+        padding: 1rem;
+        border-radius: $border-radius-md;
+    }
+}
+body   {
+  margin: 0;
+  padding: 0;
+ 
+ 
+}
+body{
+    h1, h2, h3, h4, h5, h6, p, span, div, ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+  margin-left:0 ;
+  margin-right: 0;
+ 
+}
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.date-picker-container{
+  width: 100%;
+}

@@ -1,0 +1,51 @@
+.time-input-wrapper {
+  .time-input-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .time-input-native {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .period-select {
+      width: auto;
+      min-width: 70px;
+      flex-shrink: 0;
+    }
+  }
+
+  .time-display {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85em;
+    color: var(--bs-text-muted, #6c757d);
+  }
+
+  &.is-invalid {
+    .time-input-native,
+    .period-select {
+      border-color: var(--bs-danger, #dc3545);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+  .time-input-wrapper {
+    .time-input-container {
+      gap: 6px;
+      
+      .period-select {
+        min-width: 60px;
+        font-size: 0.9em;
+      }
+    }
+  }
+} 
+
+input[type="time" i]::-webkit-calendar-picker-indicator {
+  background-image: url("/icons/clock.icon.svg");
+  cursor: pointer;
+}

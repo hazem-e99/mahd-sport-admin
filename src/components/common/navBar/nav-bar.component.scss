@@ -1,0 +1,16 @@
+ @use '@/styles/variables' as *;
+
+ .nav-bar {
+     background-color: $color-white;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 8px 20px;
+     border-bottom: 1px solid #e8e8e8;
+ }
+
+ .navbar-right {
+     display: flex;
+     align-items: center;
+     gap: 20px;
+ }

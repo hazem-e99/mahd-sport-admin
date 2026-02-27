@@ -1,0 +1,31 @@
+@use '@/styles/variables' as *;
+
+.grid-stack-item {
+  .grid-stack-item-content {
+    position: relative;
+  }
+
+  .widget-card {
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid $color-gray-200;
+    background: $color-white;
+    overflow: hidden;
+  }
+
+  .widget-body {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .widget-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}

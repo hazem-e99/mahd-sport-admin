@@ -1,0 +1,59 @@
+@use '@/styles/variables' as *;
+
+.nav-tabs {
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+
+  .nav-item {
+    margin-bottom: -1px;
+  }
+
+  .nav-link {
+    align-items: center;
+    color: #9ca3af;
+    cursor: pointer;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-right: 32px;
+
+    .tab-count-bracket {
+      color: inherit;
+      font-weight: inherit;
+    }
+
+    &:hover {
+      color: #6b7280;
+      border-bottom-color: #d1d5db;
+    }
+
+    &.active {
+      color: $color-primary;
+      border-bottom-color: $color-primary;
+      font-weight: 600;
+
+      .tab-count-bracket {
+        color: $color-primary;
+        font-weight: 600;
+      }
+    }
+
+    // Remove default Bootstrap styles
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// RTL support
+html[dir='rtl'] {
+  .nav-tabs .nav-link {
+    margin-left: 32px;
+    margin-right: 0;
+  }
+}

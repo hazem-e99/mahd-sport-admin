@@ -1,0 +1,16 @@
+export const UserSurveys_API = {
+  getAll: 'SurveysApi/GetAll',
+  getDetails: (id: string) => `SurveysApi/GetSurvey?id=${id}`,
+  create: 'SurveysApi/Create',
+  update: 'SurveysApi/Update',
+  delete: 'SurveysApi/Delete',
+  tabVisibilityDictionary: 'Comman/GetVisibilityDictionary',
+  getAppRolesDictionary: 'AppRolesApi/GetDictionary',
+  getAllSurveyResponses: '/SurveysApi/GetAllSurveyResponses',
+  getSurveyResponse: '/SurveysApi/GetSurveyResponse',
+  getAllComments: '/SurveysApi/GetAllComments',
+  getAnalytics: '/SurveysApi/GetAnalytics',
+  getSurveyOverview: '/SurveysApi/GetSurveyOverview',
+  exportSurveys: 'SurveysApi/ExportSurveys',
+  exportSurveyResponses: 'SurveysApi/ExportSurveyResponses',
+};

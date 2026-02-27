@@ -1,0 +1,30 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px dashed #ced4da;
+    border-radius: $border-radius-sm;
+    padding: 0.5rem 0.75rem;
+    background-color: #f8f9fa;
+
+    .file-upload-btn {
+        white-space: nowrap;
+        font-size: 0.875rem;
+
+        &:hover {
+            color: $color-white;
+            background-color: $color-primary;
+        }
+    }
+
+    .file-name {
+        color: #6c757d;
+        font-size: 0.875rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: calc(100% - 140px);
+    }
+}

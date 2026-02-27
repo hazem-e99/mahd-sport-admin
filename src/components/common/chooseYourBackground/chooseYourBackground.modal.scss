@@ -1,0 +1,28 @@
+@use '@/styles/variables' as *;
+
+.modal_page .header_modal {
+    align-items: center;
+
+    span {
+        color: $color-primary;
+    }
+}
+
+
+.theme_color_form {
+    label {
+        color: $text-primary-color;
+        font-size: $font-size-md;
+        font-weight: 400;
+    }
+
+    .search_input {
+        width: 100%;
+        background: $color-white;
+        border: 1px solid $input-border-color;
+        input {
+            color: $color-gray-700;
+            font-size: $font-size-sm;
+        }
+    }
+}

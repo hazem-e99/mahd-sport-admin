@@ -1,0 +1,173 @@
+@use '@/styles/variables' as *;
+
+.card_title_text {
+  margin-bottom: 20px;
+  h2 {
+    color: $text-primary-color;
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    padding-bottom: 5px;
+  }
+  p {
+    color: $color-gray-400;
+    font-size: $font-size-md;
+    font-weight: 400;
+    padding-bottom: 10px;
+  }
+}
+
+.setting_form {
+  .form-group {
+    label {
+      display: block;
+      color: $text-secondary-color;
+      font-size: $font-size-md;
+      font-weight: 500;
+      padding-bottom: 5px;
+    }
+    select {
+      border: 1px solid #EAECF0;
+      width: 100%;
+      padding: 10px;
+      font-size: $font-size-md;
+      font-weight: 400;
+      border-radius: $border-radius-sm;
+    }
+  }
+}
+
+.add_theme {
+  .add_theme_btn {
+    background: $color-gray-900;
+    border: 1px dashed #d6d6d6;
+  }
+}
+
+.theme_item {
+  padding: 20px 0;
+  gap: 1rem;
+  .color-switcher {
+    padding: 0;
+  }
+}
+
+.choose_ur_mode {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+  button {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 8px;
+  }
+  .active {
+    border: 1px solid #773dbd;
+    border-radius: 8px;
+  }
+}
+.background_list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  width: 100%;
+  gap: 10px;
+  .background_img {
+    position: relative;
+    width: 200px;
+    height: 110px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 0;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .checked_icon {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+    .delete_icon {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 4px;
+      padding: 4px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+      }
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+    &:hover .delete_icon {
+      opacity: 1;
+    }
+    &.active {
+      border: 2px solid #007a3c;
+    }
+    .add_background_img {
+      width: 100%;
+      height: 100%;
+      background: $color-gray-900;
+      border: 1px dashed #d6d6d6;
+      font-size: $font-size-6xl;
+    }
+  }
+}
+
+.video_url {
+  input {
+    border: 1px solid $input-border-color;
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 8px;
+    width: 50%;
+  }
+}
+
+
+
+.choose_ur_mode {
+  display: flex;
+  gap: 2rem;
+
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+      transition: transform 0.3s ease;
+    }
+
+    span {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 16px;
+    }
+
+    .active {
+      transform: scale(1.15); // 👈 يكبّر الصورة عند التفعيل
+      border: 3px solid #007bff;
+      border-radius: 8px;
+    }
+  }
+}

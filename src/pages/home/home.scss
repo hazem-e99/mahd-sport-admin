@@ -1,0 +1,57 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.home-container {
+    padding: 24px;
+
+    &__header {
+        margin-bottom: 32px;
+
+        &-title {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        &-desc {
+            display: block;
+            font-size: 16px;
+            color: #6B7280;
+        }
+    }
+
+    &__body {
+        h6 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 24px;
+        }
+    }
+}
+
+.grid {
+    display: grid;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

@@ -1,0 +1,552 @@
+@use '@/styles/variables' as *;
+
+// Modal specific styling to prevent modal body scroll
+.modal {
+  .modal-dialog {
+    .modal-content {
+      height: 90vh;
+
+      .modal-body {
+        max-height: 95vh;
+        overflow: hidden;
+        padding: 1rem;
+        position: relative;
+
+        .modal_body {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
+.search_input {
+  label {
+    display: block;
+    font-size: $font-size-lg;
+    font-weight: 500;
+  }
+}
+
+// Content area wrapper for files grid
+.content-area-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.modal_icons {
+  gap: 1rem;
+  border: 1px solid $btn-icon-border-color;
+  padding: 10px;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: $border-radius-md;
+  transition: background-color 0.2s ease;
+
+  // Ensure scrolling works during drag operations
+  &:not(.drag-over) {
+    overflow-y: auto;
+  }
+
+  // Drag over state for drop zone
+  &.drag-over {
+    background-color: rgba($color-primary, 0.05);
+    border: 2px dashed $color-primary;
+    border-radius: 8px;
+    overflow-y: auto; // Allow scrolling even during drag
+  }
+
+  .icons_items {
+    text-align: center;
+    padding: 10px 20px;
+    height: fit-content;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    border-radius: $border-radius-sm;
+
+    // Three dots menu styling
+    .item-menu {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: $transition;
+
+      // RTL Support
+      html[dir='rtl'] & {
+        right: auto;
+        left: 4px;
+      }
+
+      .menu-toggle {
+        padding: 0;
+        border: none;
+        background: transparent !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::after {
+          display: none; // Hide dropdown arrow
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+          background: transparent !important;
+          box-shadow: none !important;
+          outline: none !important;
+        }
+
+        .three-dots-icon {
+          width: 22px;
+          height: 22px;
+          position: relative;
+          z-index: 15;
+        }
+      }
+
+      .dropdown-menu {
+        min-width: 150px;
+        font-size: $font-size-md;
+        box-shadow: 0 2px 10px rgba($color-black, 0.15);
+        border: 1px solid $btn-icon-border-color;
+        border-radius: $border-radius-md;
+        padding: 4px 0;
+
+        .dropdown-divider {
+          margin: 4px 0;
+          border-color: $btn-icon-border-color;
+        }
+
+        .dropdown-item {
+          padding: 10px 16px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: $text-primary-color;
+          transition: $transition;
+
+          &:hover {
+            background-color: $color-gray-300;
+          }
+
+          .menu-icon {
+            width: 18px;
+            height: 18px;
+            filter: $filter-icon-primary;
+          }
+
+          &.permissions-item {
+            font-weight: 500;
+          }
+
+          &.delete-item {
+            color: #dc3545;
+
+            &:hover {
+              background-color: rgba(#dc3545, 0.1);
+            }
+
+            .delete-icon {
+              filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(331deg) brightness(104%) contrast(97%);
+            }
+          }
+        }
+      }
+    }
+
+    // Show menu only when item is selected (not on hover)
+    &.selected .item-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    // Visibility badge icon styling (for both folders and files)
+    .visibility-badge {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      z-index: 5;
+      background: $color-gray-900;
+      border-radius: $border-radius-circle;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba($color-black, 0.15);
+
+      // RTL Support
+      html[dir='rtl'] & {
+        left: auto;
+        right: -2px;
+      }
+
+      .badge-icon {
+        width: 16px !important;
+        height: 16px !important;
+        filter: $filter-icon-primary;
+      }
+    }
+
+    // Folder icon styling
+    .folder-icon {
+      position: relative;
+      display: inline-block;
+    }
+
+    // File preview styling
+    .file-preview {
+      position: relative;
+      display: inline-block;
+
+      .file-thumbnail {
+        border-radius: 4px;
+        object-fit: cover;
+      }
+    }
+
+
+    // Drag and drop states
+    &.dragging {
+      opacity: 0.5 !important;
+      transform: scale(0.95);
+    }
+
+    &.drop-target {
+      border: 2px dashed $color-primary;
+      background-color: rgba($color-primary, 0.1);
+      transform: scale(1.02);
+    }
+
+    &[draggable="true"] {
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    // Selected state styling
+    &.selected {
+      background-color: rgba($color-primary, 0.15);
+      border-radius: $border-radius-sm;
+      //   padding: 8px;
+      border: 2px solid rgba($color-primary, 0.3);
+      box-shadow: 0 2px 8px rgba($color-primary, 0.1);
+
+      .item-checkbox {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    // Folder selected state
+    &.folder-item.selected {
+      background-color: rgba($color-primary, 0.15);
+      border: 2px solid $color-primary;
+      box-shadow: 0 2px 12px rgba($color-primary, 0.15);
+    }
+
+    // File selected state
+    &.file-item.selected {
+      background-color: rgba($color-primary, 0.15);
+      border: 2px solid $color-primary;
+      box-shadow: 0 2px 12px rgba($color-primary, 0.15);
+    }
+
+    svg,
+    img {
+      width: 60px;
+      height: 60px;
+    }
+
+    h4 {
+      font-size: $font-size-md;
+      font-weight: 500;
+      padding: 5px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 60px;
+    }
+
+    // Checkbox styling (hidden by default, we use three dots menu instead)
+    .item-checkbox {
+      display: none; // Hide checkboxes, we now use the dropdown menu
+    }
+
+    // Hover state
+    &:hover {
+      background-color: rgba($color-primary, 0.05);
+      border-radius: $border-radius-sm;
+      //   padding: 8px;
+      //   margin: 10px 18px;
+    }
+  }
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  font-size: $font-size-md;
+  font-weight: 500;
+}
+
+// File explorer styles
+.breadcrumb-navigation {
+  .breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+
+    .breadcrumb-item {
+      font-size: $font-size-sm;
+
+      button {
+        color: $color-primary;
+        font-size: $font-size-sm;
+
+        &:hover {
+          text-decoration: underline !important;
+        }
+      }
+
+      &.active {
+        color: $text-primary-color;
+        font-weight: 500;
+      }
+    }
+
+    // RTL Support
+    html[dir='rtl'] & {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.create-folder-input {
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+
+    &-append {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      font-size: $font-size-sm;
+      padding: 0.375rem 0.75rem;
+    }
+  }
+}
+
+.tn_upload {
+  gap: 0.5rem;
+
+  .main-button {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  // Manage Permissions Toggle Button - specific styling with theme-compatible variables
+  .main-button.permissions-toggle {
+    .permissions-icon {
+      width: 18px;
+      height: 18px;
+      filter: $filter-icon-primary;
+      transition: filter 0.2s ease;
+    }
+
+    // Active/Enabled state - uses outline style to differentiate from other buttons
+    &.active {
+      background-color: rgba($color-primary, 0.08);
+      border: 2px solid $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+      color: $color-primary;
+
+      .permissions-icon {
+        filter: brightness(0) saturate(100%) invert(38%) sepia(98%) saturate(1655%) hue-rotate(195deg) brightness(99%) contrast(101%);
+      }
+    }
+  }
+
+  // RTL Support
+  html[dir='rtl'] & {
+    flex-direction: row-reverse;
+  }
+}
+
+.add_type_modal {
+  padding: 0;
+  background: unset !important;
+  border: unset;
+  color: $color-secondary;
+  font-size: $font-size-md;
+  font-weight: 700;
+
+  &:hover {
+    background: unset;
+    color: $color-secondary;
+  }
+}
+
+// File Preview Modal Styles
+.file-preview-modal {
+  .modal-dialog {
+    max-width: 90vw;
+    max-height: 90vh;
+
+    .modal-content {
+      height: auto;
+      max-height: 90vh;
+      background-color: $color-gray-900;
+
+      .modal-header {
+        border-bottom: 1px solid $btn-icon-border-color;
+        padding: 1rem 1.5rem;
+
+        .preview-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          svg {
+            width: 28px;
+            height: 28px;
+            filter: $filter-icon-primary;
+          }
+
+          .preview-filename {
+            font-size: $font-size-lg;
+            font-weight: 600;
+            color: $text-primary-color;
+            max-width: 500px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      .modal-body {
+        padding: 0;
+        overflow: hidden;
+        max-height: calc(90vh - 140px);
+
+        .preview-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 400px;
+          max-height: calc(90vh - 140px);
+          background-color: $color-gray-800;
+          padding: 20px;
+
+          .preview-image {
+            max-width: 100%;
+            max-height: calc(90vh - 180px);
+            object-fit: contain;
+            border-radius: $border-radius-md;
+            box-shadow: 0 4px 20px rgba($color-black, 0.3);
+          }
+
+          .preview-video {
+            max-width: 100%;
+            max-height: calc(90vh - 180px);
+            border-radius: $border-radius-md;
+            box-shadow: 0 4px 20px rgba($color-black, 0.3);
+          }
+
+          .preview-audio-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 40px;
+
+            svg {
+              width: 120px;
+              height: 120px;
+              filter: $filter-icon-primary;
+              opacity: 0.7;
+            }
+
+            .preview-audio {
+              width: 100%;
+              min-width: 400px;
+              max-width: 600px;
+            }
+          }
+
+          .preview-pdf {
+            width: 100%;
+            height: calc(90vh - 180px);
+            border: none;
+            border-radius: $border-radius-md;
+          }
+
+          .preview-no-support {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 40px;
+            text-align: center;
+
+            svg {
+              width: 100px;
+              height: 100px;
+              filter: $filter-icon-primary;
+              opacity: 0.5;
+            }
+
+            p {
+              font-size: $font-size-lg;
+              color: $text-secondary-color;
+              margin: 0;
+
+              &.file-info {
+                font-size: $font-size-md;
+                color: $text-secondary-color;
+                opacity: 0.7;
+              }
+            }
+          }
+        }
+      }
+
+      .modal-footer {
+        border-top: 1px solid $btn-icon-border-color;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

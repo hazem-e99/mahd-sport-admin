@@ -1,0 +1,461 @@
+@use './variables' as *;
+@use './functions' as *;
+@use './base' as *;
+@use './mixins' as *;
+@use "tailwindcss" as *;
+
+#root {
+  height: 100vh;
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #773dbd;
+  --bs-btn-border-color: #773dbd;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #773dbd;
+  --bs-btn-hover-border-color: #773dbd;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #773dbd;
+  --bs-btn-active-border-color: #6d38ae;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #6d38ae;
+  --bs-btn-disabled-border-color: #6d38ae;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Black.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Black.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Bold.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Bold.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic Book";
+  src: url("./fonts/MahdFavoritArabic-Book.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic Book";
+  src: url("./fonts/MahdFavoritArabic-Book.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Extrabold.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Extrabold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Light.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Extrabold.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Extrabold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Extrabold.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Extrabold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Light.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Medium.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Medium.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Regular.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mahd Favorit Arabic";
+  src: url("./fonts/MahdFavoritArabic-Regular.woff2") format("woff2"),
+    url("./fonts/MahdFavoritArabic-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  // font-family: $font-body !important;
+  // font-family: 'Janna LT' !important;
+  font-family: "Mahd Favorit Arabic" !important;
+}
+
+html {
+  // font-family: $font-body !important;
+  // font-family: 'Janna LT' !important;
+  font-family: "Mahd Favorit Arabic" !important;
+}
+
+*,
+*::before,
+*::after {
+  // font-family: 'Janna LT' !important;
+  font-family: "Mahd Favorit Arabic" !important;
+
+  // font-family: $font-body !important;
+}
+
+.main-button {
+  min-width: 120px;
+  padding: 10px 20px;
+  background-color: $color-white;
+  color: $text-primary-color;
+  border: 1px solid $color-gray-800;
+  border-radius: $border-radius-sm;
+  font-weight: 500;
+  font-size: $font-size-lg;
+  cursor: pointer;
+
+  &.active {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+  &.Preview {
+    background-color: $color-secondary;
+    color: $color-white;
+  }
+}
+
+.main-input {
+  height: $input-height;
+  border: 1px solid $input-border-color;
+}
+
+.form-label {
+  color: $color-black;
+  font-weight: 400;
+
+  em {
+    color: $color-gray-700;
+    font-style: normal;
+    font-size: $font-size-sm;
+    padding-inline-start: 5px;
+  }
+}
+
+.input-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  input {
+    width: 20px;
+    height: 20px;
+  }
+
+  label {
+    margin-bottom: -5px;
+  }
+}
+
+.input-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  input {
+    width: 20px;
+    height: 20px;
+  }
+
+  label {
+    margin-bottom: -5px;
+  }
+}
+
+.form-check-input:checked {
+  background-color: $color-primary;
+  border-color: $color-primary;
+}
+
+// Basic Form
+
+.form-label {
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: $border-radius-sm;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 0.75rem;
+  height: calc(2.5rem + 2px);
+
+  &:focus {
+    border-color: rgba($color-primary, 0.4) !important;
+    box-shadow: none !important;
+  }
+}
+.form-select{
+  html[dir='rtl'] &  {
+         background-position: left 0.75rem center;
+         direction: rtl;
+       }
+}
+
+html[dir=rtl] .form-select {
+    background-position: left 0.75rem center;
+    direction: rtl;
+}
+
+  html[dir='rtl']  {
+    .react-datepicker__view-calendar-icon input {
+        padding: 4px 30px 6px 0;
+    }
+  }
+
+  
+textarea.form-control {
+  min-height: auto;
+  height: auto;
+}
+.file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px dashed #ced4da;
+  border-radius: $border-radius-sm;
+  padding: 0.5rem 0.75rem;
+  background-color: #f8f9fa;
+  gap: 10px;
+
+  .file-upload-btn {
+    white-space: nowrap;
+    font-size: 0.875rem;
+
+    &:hover {
+      color: $color-white;
+      background-color: $color-primary;
+    }
+  }
+
+  .file-name {
+    color: #6c757d;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(100% - 140px);
+  }
+}
+
+.form-check {
+  .form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+  }
+
+  .form-check-label {
+    margin-left: 0.5rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .file-upload-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .file-name {
+      margin-top: 0.5rem;
+      margin-left: 0 !important;
+    }
+  }
+}
+
+// Select styling
+.react-select-container {
+  .react-select__control {
+    min-height: calc(2.3rem + 2px);
+    border-radius: $border-radius-sm;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+
+    &:hover {
+      border-color: #ced4da;
+    }
+
+    &--is-focused {
+      border-color: rgba($color-primary, 0.4) !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .react-select__placeholder {
+    color: #6c757d;
+  }
+
+  .react-select__menu {
+    border-radius: $border-radius-sm;
+    margin-top: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  }
+
+  .react-select__option {
+    padding: 0.5rem 0.75rem;
+
+    &--is-focused {
+      background-color: rgba($color-primary, 0.1);
+    }
+
+    &--is-selected {
+      background-color: $color-primary;
+      color: white;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 767.98px) {
+  .file-upload-wrapper {
+    flex-wrap: wrap;
+
+    .file-name {
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .react-select-container {
+    width: 100%;
+  }
+}
+
+html[dir="rtl"] {
+  .form-check {
+    .form-check-label,
+      .form-check-input {
+        margin-left: 0.5rem;
+        margin-right: unset;
+        float: right;
+      }
+     }
+     .form-check-inline{
+          margin-right: 0;
+        }
+ }
+
+
+.select2-isMulti{
+.css-z8nr4w,
+.css-1ycm5vs-control{
+  height: auto;
+      min-height: 45px;
+}
+}
+.select2-isMulti {
+  .css-z8nr4w,
+  .css-1ycm5vs-control {
+    height: auto;
+    min-height: 45px;
+  }
+  .css-lgygtr-control {
+    height: auto;
+    min-height: 45px;
+  }
+}
+
+
+
+.badge{
+  min-width : 40px;
+  width: auto;
+  border-radius: 5px !important;
+}
+
+.viwe-dit{
+      color: #007bff;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+.border-brand-gray-200{
+border-color: #e5e5e5;
+}
