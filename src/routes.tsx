@@ -8,6 +8,7 @@ import { Spinner } from "react-bootstrap";
 const LoginPage = lazy(() => import("./pages/login/login"));
 const Home = lazy(() => import("./pages/home/home"));
 const CardControl = lazy(() => import("./pages/cardControl/card-control"));
+const GeneralSettings = lazy(() => import("./components/common/GeneralSettings/GeneralSettings.component"));
 
 const Loading = () => (
   <div className="d-flex justify-content-center align-items-center vh-100">
@@ -34,6 +35,14 @@ const Router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <CardControl />
+          </Suspense>
+        )
+      },
+      {
+        path: "/:lng/GeneralSettings",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <GeneralSettings />
           </Suspense>
         )
       },

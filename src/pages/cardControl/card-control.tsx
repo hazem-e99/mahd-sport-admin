@@ -6,6 +6,9 @@ import SvgSearchicon from "./components/icons/search-icon";
 import { useLanguage } from "./context/languageContext";
 import type { PlayerCard, PerformanceLevel } from "./types/card-control.type";
 import { useCallback, useMemo, useState, useRef } from "react";
+import { parseExcelFile } from "./utils/importExcel";
+import type { ImportResult } from "./utils/importExcel";
+import ImportPreviewModal from "./components/ImportPreviewModal/ImportPreviewModal";
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "./card-control.scss";
@@ -98,6 +101,9 @@ const CardControl: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+  const [showImportPreview, setShowImportPreview] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
 
   const handleStatusToggle = useCallback((player: PlayerCard, newStatus: boolean) => {
     setPendingStatusChange({ player, newStatus });
@@ -141,28 +147,57 @@ const CardControl: React.FC = () => {
 
   const handleExportExcel = () => {
     try {
-      const headers = ["Name (En)", "Name (Ar)", "Sport", "Number", "Position", "Country", "Performance", "Status"];
-      const rows = data.map(p => [
-        p.fullNameEn,
-        p.fullNameAr,
-        p.sport,
-        p.playerNumber,
-        p.position,
-        p.country,
-        p.performance,
-        p.status ? "Active" : "Inactive"
-      ]);
+      import("xlsx").then((XLSX) => {
+        const rows = data.map((p, idx) => ({
+          "#":               idx + 1,
+          "Name (EN)":       p.fullNameEn,
+          "Name (AR)":       p.fullNameAr,
+          "Sport":           p.sport,
+          "Player Number":   p.playerNumber,
+          "Position":        p.position,
+          "Country":         p.country,
+          "Birth Year":      p.birthYear ?? "",
+          "Location":        p.location ?? "",
+          "Performance":     p.performance,
+          "Status":          p.status ? "Active" : "Inactive",
+          // KPI
+          "KPI - Cognition":  p.kpi.cognition,
+          "KPI - Technical":  p.kpi.technical,
+          "KPI - Physical":   p.kpi.physical,
+          "KPI - Psychology": p.kpi.psychology,
+          "KPI - Medical":    p.kpi.medical,
+          "Skill Video URL":  p.kpi.skillVideoUrl,
+        }));
 
-      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", "players_export.csv");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      toast.success(getValue("export_excel") + " " + getValue("success"));
+        const worksheet = XLSX.utils.json_to_sheet(rows);
+
+        // Column widths
+        worksheet["!cols"] = [
+          { wch: 4 },  // #
+          { wch: 30 }, // Name EN
+          { wch: 30 }, // Name AR
+          { wch: 14 }, // Sport
+          { wch: 14 }, // Player Number
+          { wch: 16 }, // Position
+          { wch: 16 }, // Country
+          { wch: 12 }, // Birth Year
+          { wch: 14 }, // Location
+          { wch: 14 }, // Performance
+          { wch: 10 }, // Status
+          { wch: 16 }, // Cognition
+          { wch: 16 }, // Technical
+          { wch: 16 }, // Physical
+          { wch: 16 }, // Psychology
+          { wch: 16 }, // Medical
+          { wch: 30 }, // Skill Video
+        ];
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Players");
+        XLSX.writeFile(workbook, "players_export.xlsx");
+
+        toast.success(getValue("export_excel") + " " + getValue("success"));
+      });
     } catch (error) {
       toast.error(getValue("unable_to_export"));
     }
@@ -172,12 +207,32 @@ const CardControl: React.FC = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      toast.info(`${getValue("import_excel")}: ${file.name}`);
-      e.target.value = "";
+    if (!file) return;
+    e.target.value = "";
+
+    setIsImporting(true);
+    try {
+      const result = await parseExcelFile(file);
+      setImportResult(result);
+      setShowImportPreview(true);
+    } catch (err: any) {
+      toast.error(err?.message ?? getValue("unable_to_export"));
+    } finally {
+      setIsImporting(false);
     }
+  };
+
+  const handleImportConfirm = (players: PlayerCard[], mode: "append" | "replace") => {
+    if (mode === "replace") {
+      setData(players);
+    } else {
+      setData(prev => [...prev, ...players]);
+    }
+    setShowImportPreview(false);
+    setImportResult(null);
+    toast.success(`${players.length} players imported successfully.`);
   };
 
   const getPerformanceBadge = (level: PerformanceLevel) => {
@@ -318,14 +373,14 @@ const CardControl: React.FC = () => {
                 </Button>
                 <Dropdown.Toggle split variant="light" id="dropdown-split-excel" className="excel-toggle-btn" />
                 <Dropdown.Menu className="excel-dropdown-menu">
-                  <Dropdown.Item onClick={handleImportClick} className="excel-menu-item">
+                  <Dropdown.Item onClick={handleImportClick} disabled={isImporting} className="excel-menu-item">
                     <span className="menu-item-icon upload">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M3 17V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                       </svg>
                     </span>
-                    <span>{getValue("import_excel")}</span>
+                    <span>{isImporting ? "Importing..." : getValue("import_excel")}</span>
                   </Dropdown.Item>
                   <Dropdown.Item onClick={handleExportExcel} className="excel-menu-item">
                     <span className="menu-item-icon download">
@@ -403,6 +458,13 @@ const CardControl: React.FC = () => {
         onEmployeeUpdated={(updatedPlayer) => {
           handleSavePlayer(updatedPlayer);
         }}
+      />
+
+      <ImportPreviewModal
+        show={showImportPreview}
+        result={importResult}
+        onConfirm={handleImportConfirm}
+        onHide={() => { setShowImportPreview(false); setImportResult(null); }}
       />
 
       <ConfirmDialog

@@ -1,5 +1,5 @@
 import { useLanguage } from "@/context/languageContext";
-import UploadModal from "@/pages/UploadModal/UploadModal";
+import UploadModal from "@/pages/cardControl/pages/UploadModal/UploadModal";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useWatch, type Control, type FieldErrors, type UseFormClearErrors, type UseFormSetValue, type UseFormTrigger } from "react-hook-form";
@@ -40,9 +40,8 @@ const ImageUploadModal = ({
         <Form.Label>{label}</Form.Label>
 
         <button
-          className={`file-upload-wrapper w-full ${
-            disabled ? "!cursor-default" : ""
-          }`}
+          className={`file-upload-wrapper w-full ${disabled ? "!cursor-default" : ""
+            }`}
           type="button"
           onClick={() => !disabled && setShowUploadModal(true)}
         >
@@ -66,7 +65,7 @@ const ImageUploadModal = ({
 
       <UploadModal
         show={showUploadModal}
-        setFileName={() => {}}
+        setFileName={() => { }}
         handleClose={() => setShowUploadModal(false)}
         setValue={setValue as any}
         clearErrors={clearErrors as any}

@@ -20,6 +20,8 @@ export interface PlayerCard {
   countryCode: string;
   performance: PerformanceLevel;
   photoUrl: string | null;
+  birthYear?: string;
+  location?: string;
   status: boolean;
   orderIndex: number;
   kpi: PlayerKPI;

@@ -25,6 +25,13 @@ const Home = () => {
             icon: <SvgPlaySquare className="card-icon" />,
             onClick: () => setShowSoundModal(true),
         },
+        {
+            id: 3,
+            title: getValue("General_Setting") || "General Settings",
+            desc: getValue("General_Setting_Desc") || "Manage portal basics, colors, and themes",
+            icon: <SvgUserSurveyConfig className="card-icon" />,
+            urlToGo: `/${language}/GeneralSettings`,
+        },
     ];
 
     return (

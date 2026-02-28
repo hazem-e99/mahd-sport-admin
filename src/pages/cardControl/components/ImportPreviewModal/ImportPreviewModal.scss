@@ -1,0 +1,208 @@
+@use '../../../../styles/variables' as *;
+
+.import-preview-modal {
+  .modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $text-primary-color;
+
+    .modal-title-icon {
+      font-size: 1.4rem;
+    }
+  }
+
+  // Summary cards
+  .import-summary {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    .summary-card {
+      flex: 1;
+      min-width: 120px;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      .summary-number {
+        font-size: $font-size-3xl;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .summary-label {
+        font-size: $font-size-sm;
+        font-weight: 500;
+        opacity: 0.75;
+      }
+
+      &.success {
+        background-color: #ecfdf5;
+        color: #065f46;
+      }
+
+      &.warning {
+        background-color: #fffbeb;
+        color: #92400e;
+      }
+
+      &.info {
+        background-color: $color-primary-light;
+        color: $color-primary;
+      }
+    }
+  }
+
+  // Detected columns
+  .detected-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .detected-label {
+      font-size: $font-size-sm;
+      font-weight: 600;
+      color: $color-gray-400;
+      margin-right: 4px;
+    }
+
+    .col-badge {
+      background-color: $color-primary-light !important;
+      color: $color-primary !important;
+      font-size: $font-size-sm;
+      font-weight: 500;
+      border-radius: 20px;
+      padding: 4px 10px;
+    }
+  }
+
+  // Warnings
+  .import-warnings {
+    background-color: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: $font-size-sm;
+    color: #92400e;
+
+    ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+
+      li {
+        margin-bottom: 4px;
+      }
+    }
+  }
+
+  // Preview table
+  .preview-table-wrapper {
+    max-height: 380px;
+    overflow-y: auto;
+    border-radius: 10px;
+    border: 1px solid $color-gray-200;
+
+    .preview-table {
+      margin: 0;
+      font-size: $font-size-sm;
+
+      thead th {
+        background-color: $color-gray-100;
+        color: $color-gray-400;
+        font-weight: 600;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        border-bottom: 2px solid $color-gray-200;
+      }
+
+      tbody td {
+        padding: 10px 12px;
+        vertical-align: middle;
+        color: $text-primary-color;
+      }
+
+      .empty-cell {
+        color: $color-gray-700;
+        font-style: italic;
+      }
+
+      .perf-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-transform: capitalize;
+      }
+
+      .status-dot {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: $font-size-sm;
+        font-weight: 500;
+
+        &::before {
+          content: '';
+          display: inline-block;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+        }
+
+        &.active {
+          color: #065f46;
+          &::before { background-color: #10b981; }
+        }
+
+        &.inactive {
+          color: #6b7280;
+          &::before { background-color: #9ca3af; }
+        }
+      }
+    }
+  }
+
+  .no-players-msg {
+    text-align: center;
+    padding: 40px;
+    color: $color-gray-400;
+    font-size: $font-size-lg;
+  }
+
+  // Footer
+  .import-footer {
+    gap: 10px;
+
+    .import-btn {
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 8px 20px;
+
+      &.append {
+        border-color: $color-primary;
+        color: $color-primary;
+
+        &:hover {
+          background-color: $color-primary-light;
+        }
+      }
+    }
+  }
+}
