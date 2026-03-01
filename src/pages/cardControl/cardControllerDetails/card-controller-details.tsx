@@ -8,6 +8,7 @@ import NumberStepper from "../numberStepper/NumberStepper";
 import ToggleSwitch from "../toggleSwitch/ToggleSwitch";
 import { useLanguage } from "../context/languageContext";
 import type { PlayerCard } from "../types/card-control.type";
+import PlayerCardPreview from "../components/PlayerCardPreview/PlayerCardPreview";
 import SelectController from "@/components/common/SelectController/selectController";
 import { COUNTRIES } from "@/utils/countries";
 import DatePickerController from "@/components/common/DatePickerController/DatePickerController";
@@ -108,29 +109,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
               <Tab eventKey="edit_img" title={getValue("edit_img") || "Image & Settings"}>
 
                 {/* Player Card Preview */}
-                <div className="cardt mx-auto mb-4">
-                  <div className="cardt-header">
-                    {photoPath ? (
-                      <img src={photoPath} alt={employee?.fullNameEn || "Player"} className="card-img" />
-                    ) : (
-                      <section className="upload-card" aria-label="Image uploader">
-                        <p className="title">{getValue("no_image_chosen")}</p>
-                        <button type="button" className="btn" onClick={() => setShowPhotoUpload(true)} disabled={isSaving}>
-                          {getValue("upload_player_img") || "Upload Image"}
-                        </button>
-                      </section>
-                    )}
-                    <div className="bottom-line" />
-                  </div>
-                  <div className="card-footer">
-                    <div className="footer-version-1">
-                      <h3>{language === 'ar' ? employee?.fullNameAr : employee?.fullNameEn}</h3>
-                      <p>{employee?.position || getValue("no_title")}</p>
-                      <div className="bottom-line2" />
-                      <span>{employee?.sport || getValue("no_department")}</span>
-                    </div>
-                  </div>
-                </div>
+                <PlayerCardPreview player={{ ...(employee ?? {} as PlayerCard), photoUrl: photoPath || employee?.photoUrl || '' }} />
 
                 {/* Change Photo Button */}
                 <div className="change-image-section text-center mb-4">

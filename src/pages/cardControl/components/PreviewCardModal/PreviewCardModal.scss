@@ -1,0 +1,64 @@
+@use '@/styles/variables' as *;
+
+.preview-card-modal {
+
+  .modal-dialog {
+    max-width: 360px;
+  }
+
+  .modal-content {
+    border-radius: 16px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  &__header {
+    background: #111;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.9rem 1.2rem;
+
+    .modal-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .btn-close {
+      filter: invert(1);
+      opacity: 0.6;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  &__title {
+    font-size: $font-size-md;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.3px;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 400;
+  }
+
+  &__body {
+    padding: 2rem 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 520px;
+    border-radius: 0 0 16px 16px;
+
+    // Subtle vignette
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 110%, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  }
+}

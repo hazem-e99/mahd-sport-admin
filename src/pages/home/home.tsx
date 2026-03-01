@@ -61,7 +61,7 @@ const Home = () => {
                 clearErrors={() => { }}
                 trigger={async () => true}
                 name="sound_file"
-                accept="audio/*"
+                accept=".mp3,audio/mpeg"
             />
         </div>
     );

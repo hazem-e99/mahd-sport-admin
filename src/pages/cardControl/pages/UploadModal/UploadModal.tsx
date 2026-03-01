@@ -485,7 +485,21 @@ const UploadModal = ({
     return selectedItems.some((selectedItem) => selectedItem.id === item.id);
   };
 
-  const itemsToShow = hasSearched ? searchResults : allFiles;
+  // Check if a file matches the accepted type; folders always pass
+  const fileMatchesAccept = (item: FileItem): boolean => {
+    if (item.type === "Folder") return true;
+    if (!accept || accept === "*" || accept === "*/*") return true;
+    const ext = (item.extension || "").toLowerCase().replace(/^\./, "");
+    const mime = (item.contentType || "").toLowerCase();
+    return accept.split(",").some((token) => {
+      const t = token.trim().toLowerCase().replace(/^\s+/, "");
+      if (t.startsWith(".")) return ext === t.slice(1);
+      if (t.endsWith("/*")) return mime.startsWith(t.slice(0, -1));
+      return mime === t;
+    });
+  };
+
+  const itemsToShow = (hasSearched ? searchResults : allFiles).filter(fileMatchesAccept);
 
   return (
     <>
