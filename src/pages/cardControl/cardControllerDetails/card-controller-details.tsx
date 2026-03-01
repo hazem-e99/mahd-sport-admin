@@ -84,7 +84,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
 
   return (
     <div>
-      <Modal show={show} className="modal-employee-details" backdrop="static" onHide={handleClose} size="lg">
+      <Modal show={show} className="modal-employee-details add-player-modal" backdrop="static" onHide={handleClose} size="lg">
         <Modal.Header closeButton className="modal_header">
           <Modal.Title>
             <div className="header_modal team-modla">
@@ -97,6 +97,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Modal.Body className="modal_body-employee-details" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             <Tabs
+              key={employee?.id || "new"}
               activeKey={activeTab}
               onSelect={(k) => setActiveTab(k || "edit_img")}
               className="mb-3 custom-edit-tabs"
@@ -165,61 +166,67 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
               {/* ══════════════ TAB 2 — Details & KPIs ══════════════ */}
               <Tab eventKey="edit_details" title={getValue("edit_details") || "Edit Details"}>
 
-                <Row>
+                {/* ── Names ───────────────────────────────── */}
+                <Row className="g-3">
                   <Col md={6}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("player_name")} (English)</Form.Label>
-                      <Form.Control type="text"
-                        {...register("fullNameEn", { required: true })}
-                        isInvalid={!!errors.fullNameEn} />
+                      <Form.Control type="text" placeholder="Enter name in English"
+                        {...register("fullNameEn", { required: true })} isInvalid={!!errors.fullNameEn} />
                     </Form.Group>
                   </Col>
                   <Col md={6}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("player_name")} (Arabic)</Form.Label>
-                      <Form.Control type="text"
-                        {...register("fullNameAr", { required: true })}
-                        isInvalid={!!errors.fullNameAr} />
+                      <Form.Control type="text" placeholder="ادخل الاسم بالعربية"
+                        {...register("fullNameAr", { required: true })} isInvalid={!!errors.fullNameAr} />
                     </Form.Group>
                   </Col>
                 </Row>
 
-                <Row>
+                {/* ── Sport / Number / Position ───────────────── */}
+                <Row className="g-3 mt-1">
                   <Col md={4}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("sport")}</Form.Label>
-                      <Form.Select {...register("sport", { required: true })} isInvalid={!!errors.sport}>
-                        <option value="">{getValue("select")}</option>
-                        <option value="football">{getValue("football")}</option>
-                        <option value="athletics">{getValue("athletics")}</option>
-                        <option value="judo">{getValue("judo")}</option>
-                        <option value="tennis">{getValue("tennis")}</option>
-                        <option value="taekwondo">{getValue("taekwondo")}</option>
-                        <option value="swimming">{getValue("swimming")}</option>
-                      </Form.Select>
+                      <SelectController
+                        control={control} name="sport" required
+                        options={[
+                          { value: "football",  label: getValue("football")  || "Football" },
+                          { value: "athletics", label: getValue("athletics") || "Athletics" },
+                          { value: "judo",      label: getValue("judo")      || "Judo" },
+                          { value: "tennis",    label: getValue("tennis")    || "Tennis" },
+                          { value: "taekwondo", label: getValue("taekwondo") || "Taekwondo" },
+                          { value: "swimming",  label: getValue("swimming")  || "Swimming" },
+                        ]}
+                        getOptionLabel={(o: any) => o.label}
+                        getOptionValue={(o: any) => o.value}
+                        placeholder={getValue("select")}
+                        menuPlacement="bottom"
+                        menuPosition="fixed"
+                      />
                     </Form.Group>
                   </Col>
                   <Col md={4}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("player_number")}</Form.Label>
                       <Form.Control type="text"
-                        {...register("playerNumber", { required: true })}
-                        isInvalid={!!errors.playerNumber} />
+                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
                     </Form.Group>
                   </Col>
                   <Col md={4}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("position")}</Form.Label>
                       <Form.Control type="text"
-                        {...register("position", { required: true })}
-                        isInvalid={!!errors.position} />
+                        {...register("position", { required: true })} isInvalid={!!errors.position} />
                     </Form.Group>
                   </Col>
                 </Row>
 
-                <Row>
+                {/* ── Country / Performance ──────────────────── */}
+                <Row className="g-3 mt-1">
                   <Col md={6}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("country")}</Form.Label>
                       <SelectController
                         control={control} name="country" options={COUNTRIES} required
@@ -232,22 +239,30 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                     </Form.Group>
                   </Col>
                   <Col md={6}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Label>{getValue("performance")}</Form.Label>
-                      <Form.Select {...register("performance", { required: true })}>
-                        <option value="diamond">{getValue("diamond")}</option>
-                        <option value="gold">{getValue("gold")}</option>
-                        <option value="silver">{getValue("silver")}</option>
-                      </Form.Select>
+                      <SelectController
+                        control={control} name="performance" required
+                        options={[
+                          { value: "diamond", label: getValue("diamond") || "Diamond" },
+                          { value: "gold",    label: getValue("gold")    || "Gold" },
+                          { value: "silver",  label: getValue("silver")  || "Silver" },
+                        ]}
+                        getOptionLabel={(o: any) => o.label}
+                        getOptionValue={(o: any) => o.value}
+                        placeholder={getValue("select")}
+                        menuPlacement="bottom"
+                        menuPosition="fixed"
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
 
-                {/* KPIs */}
-                <hr className="details-divider" />
-                <p className="kpi-label">{getValue("kpis") || "KPIs (%)"}</p>
+                <hr className="section-divider mt-4" />
+                <span className="kpi-section-title">KPIs (%)</span>
 
-                <Row>
+                {/* ── KPIs ───────────────────────────────────── */}
+                <Row className="g-3 mt-1">
                   {[
                     { key: "kpi.cognition",  label: getValue("cognition") },
                     { key: "kpi.technical",  label: getValue("technical") },
@@ -256,7 +271,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                     { key: "kpi.medical",    label: getValue("medical") },
                   ].map(({ key, label }) => (
                     <Col md={4} key={key}>
-                      <Form.Group className="mb-3">
+                      <Form.Group>
                         <Form.Label>{label}</Form.Label>
                         <Form.Control type="number" min={0} max={100}
                           {...register(key as any, { valueAsNumber: true, min: 0, max: 100 })} />
@@ -265,44 +280,47 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                   ))}
                 </Row>
 
-                {/* Skill GIF */}
-                <Form.Group className="mb-3">
-                  <Form.Label>{getValue("skill_gif") || "Skill GIF"}</Form.Label>
-                  <div className="gif-upload-field-details">
-                    <div
-                      className={`gif-trigger ${gifUrl ? 'has-file' : ''}`}
-                      onClick={() => setShowGifUpload(true)}
-                    >
-                      {gifUrl ? (
-                        <div className="gif-preview-row">
-                          <img src={gifUrl} alt="Skill GIF" className="gif-thumb" />
-                          <div className="gif-info">
-                            <span className="gif-name">{gifFileName || getValue("skill_gif")}</span>
-                            <span className="gif-hint">{getValue("click_to_change") || "Click to change"}</span>
-                          </div>
+                {/* ── Skill GIF ─────────────────────────────── */}
+                <Row className="mt-3">
+                  <Col md={12}>
+                    <Form.Group>
+                      <Form.Label>{getValue("skill_gif") || "Skill GIF"}</Form.Label>
+                      <div className="gif-upload-field">
+                        <div className={`gif-upload-trigger ${gifUrl ? 'has-file' : ''}`}
+                          onClick={() => setShowGifUpload(true)}>
+                          {gifUrl ? (
+                            <div className="gif-preview-wrapper">
+                              <img src={gifUrl} alt="Skill GIF" className="gif-preview-thumb" />
+                              <div className="gif-preview-info">
+                                <span className="gif-file-name">{gifFileName || getValue("skill_gif")}</span>
+                                <span className="gif-change-hint">{getValue("click_to_change") || "Click to change"}</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="gif-upload-placeholder">
+                              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M3 15V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                              <span className="gif-placeholder-text">{getValue("upload_gif") || "Upload Skill GIF"}</span>
+                              <span className="gif-placeholder-hint">GIF</span>
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div className="gif-empty">
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            <path d="M3 15V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                          <span>{getValue("upload_gif") || "Upload Skill GIF"}</span>
-                          <span className="gif-badge">GIF</span>
-                        </div>
-                      )}
-                    </div>
-                    {gifUrl && (
-                      <button type="button" className="gif-remove"
-                        onClick={() => { setValue("kpi.skillVideoUrl", ""); setGifFileName(""); }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                  <input type="hidden" {...register("kpi.skillVideoUrl")} />
-                </Form.Group>
+                        {gifUrl && (
+                          <button type="button" className="gif-remove-btn"
+                            onClick={(e) => { e.stopPropagation(); setValue("kpi.skillVideoUrl", ""); setGifFileName(""); }}
+                            title={getValue("remove") || "Remove"}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                      <input type="hidden" {...register("kpi.skillVideoUrl")} />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
               </Tab>
             </Tabs>

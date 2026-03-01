@@ -1,6 +1,8 @@
 import { useState } from "react";
 import SvgUserSurveyConfig from "@/components/icons/user-survey-config";
 import SvgPlaySquare from "@/components/icons/play-square";
+import SvgTabConfigicon from "@/components/icons/tab-config-icon";
+// SvgUserSurveyConfig kept for card-control card icon
 import "./home.scss";
 import { useLanguage } from "@/context/languageContext";
 import HomeCard from "./components/home-card/home-card.component";
@@ -29,7 +31,7 @@ const Home = () => {
             id: 3,
             title: getValue("General_Setting") || "General Settings",
             desc: getValue("General_Setting_Desc") || "Manage portal basics, colors, and themes",
-            icon: <SvgUserSurveyConfig className="card-icon" />,
+            icon: <SvgTabConfigicon className="card-icon" />,
             urlToGo: `/${language}/GeneralSettings`,
         },
     ];

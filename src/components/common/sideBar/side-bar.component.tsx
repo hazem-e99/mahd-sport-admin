@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import SvgLogoicon from "@/components/icons/logo-icon";
 import SvgHomeicon from "@/components/icons/home-icon";
 import SvgUsercardicon from "@/components/icons/usercard-icon";
+import SvgTabConfigicon from "@/components/icons/tab-config-icon";
 import type { SidebarItem } from '@/types/side-bar.types';
 import "./side-bar.component.scss";
 import { useLanguage } from "@/context/languageContext";
@@ -31,6 +32,13 @@ export default function SideBar() {
       img: <SvgUsercardicon />, // Placeholder icon
       link: `/${language}/sound-control`
     },
+    {
+      id: 4,
+      title: getValue("tab_configuration"),
+      img: <SvgTabConfigicon />,
+      link: `/${language}/GeneralSettings`,
+      className: "tab-config-icon"
+    },
   ]
 
 
@@ -51,8 +59,8 @@ export default function SideBar() {
               const isActive = item.id === active;
               return (
                 <li
-                  key={item.id}
-                  className={`sidebar-item ${isActive ? "active" : ""}`}>
+                key={item.id}
+                className={`sidebar-item ${isActive ? "active" : ""} ${ (item as any).className || ""}`}>
                   <Link to={item.link ? item.link : ''} className="link_page">
                     {item.img}
                     <span className="icon_name">{item.title}</span>
