@@ -10,6 +10,7 @@ import { useLanguage } from "../context/languageContext";
 import type { PlayerCard } from "../types/card-control.type";
 import SelectController from "@/components/common/SelectController/selectController";
 import { COUNTRIES } from "@/utils/countries";
+import DatePickerController from "@/components/common/DatePickerController/DatePickerController";
 import './card-controller-details.scss';
 
 interface Props {
@@ -166,7 +167,18 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
               {/* ══════════════ TAB 2 — Details & KPIs ══════════════ */}
               <Tab eventKey="edit_details" title={getValue("edit_details") || "Edit Details"}>
 
-                {/* ── Names ───────────────────────────────── */}
+                {/* ═══════ SECTION 1 — Personal Info ═══════ */}
+                <div className="form-section-header">
+                  <span className="form-section-header__icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8"/>
+                      <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                  <span className="form-section-header__title">{getValue("personal_info") || "Personal Info"}</span>
+                </div>
+
+                {/* Names */}
                 <Row className="g-3">
                   <Col md={6}>
                     <Form.Group>
@@ -184,8 +196,52 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                   </Col>
                 </Row>
 
-                {/* ── Sport / Number / Position ───────────────── */}
+                {/* Birth Date + Country */}
                 <Row className="g-3 mt-1">
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>{getValue("birth_date") || "Birth Date"}</Form.Label>
+                      <DatePickerController
+                        name="birthDate"
+                        control={control}
+                        hasDefault={false}
+                        defaultValue={employee?.birthDate}
+                        placeholder={getValue("select_date") || "Select date"}
+                        maxDate={new Date()}
+                        dateFormat="dd-MM-yyyy"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>{getValue("country")}</Form.Label>
+                      <SelectController
+                        control={control} name="country" options={COUNTRIES} required
+                        getOptionLabel={(option: any) => option.label}
+                        getOptionValue={(option: any) => option.label}
+                        placeholder={getValue("select")}
+                        menuPlacement="bottom"
+                        menuPosition="fixed"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                {/* ═══════ SECTION 2 — Sport Info ═══════ */}
+                <div className="form-section-header">
+                  <span className="form-section-header__icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/>
+                      <path d="M12 3c0 0 3 4 3 9s-3 9-3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M12 3c0 0-3 4-3 9s3 9 3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M3 12h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                  <span className="form-section-header__title">{getValue("sport_info") || "Sport Info"}</span>
+                </div>
+
+                {/* Sport + Position + Number */}
+                <Row className="g-3">
                   <Col md={4}>
                     <Form.Group>
                       <Form.Label>{getValue("sport")}</Form.Label>
@@ -209,35 +265,22 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                   </Col>
                   <Col md={4}>
                     <Form.Group>
-                      <Form.Label>{getValue("player_number")}</Form.Label>
-                      <Form.Control type="text"
-                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group>
                       <Form.Label>{getValue("position")}</Form.Label>
                       <Form.Control type="text"
                         {...register("position", { required: true })} isInvalid={!!errors.position} />
                     </Form.Group>
                   </Col>
-                </Row>
-
-                {/* ── Country / Performance ──────────────────── */}
-                <Row className="g-3 mt-1">
-                  <Col md={6}>
+                  <Col md={4}>
                     <Form.Group>
-                      <Form.Label>{getValue("country")}</Form.Label>
-                      <SelectController
-                        control={control} name="country" options={COUNTRIES} required
-                        getOptionLabel={(option: any) => option.label}
-                        getOptionValue={(option: any) => option.label}
-                        placeholder={getValue("select")}
-                        menuPlacement="bottom"
-                        menuPosition="fixed"
-                      />
+                      <Form.Label>{getValue("player_number")}</Form.Label>
+                      <Form.Control type="text"
+                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
                     </Form.Group>
                   </Col>
+                </Row>
+
+                {/* Performance + Skill GIF */}
+                <Row className="g-3 mt-1">
                   <Col md={6}>
                     <Form.Group>
                       <Form.Label>{getValue("performance")}</Form.Label>
@@ -256,33 +299,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                       />
                     </Form.Group>
                   </Col>
-                </Row>
-
-                <hr className="section-divider mt-4" />
-                <span className="kpi-section-title">KPIs (%)</span>
-
-                {/* ── KPIs ───────────────────────────────────── */}
-                <Row className="g-3 mt-1">
-                  {[
-                    { key: "kpi.cognition",  label: getValue("cognition") },
-                    { key: "kpi.technical",  label: getValue("technical") },
-                    { key: "kpi.physical",   label: getValue("physical") },
-                    { key: "kpi.psychology", label: getValue("psychology") },
-                    { key: "kpi.medical",    label: getValue("medical") },
-                  ].map(({ key, label }) => (
-                    <Col md={4} key={key}>
-                      <Form.Group>
-                        <Form.Label>{label}</Form.Label>
-                        <Form.Control type="number" min={0} max={100}
-                          {...register(key as any, { valueAsNumber: true, min: 0, max: 100 })} />
-                      </Form.Group>
-                    </Col>
-                  ))}
-                </Row>
-
-                {/* ── Skill GIF ─────────────────────────────── */}
-                <Row className="mt-3">
-                  <Col md={12}>
+                  <Col md={6}>
                     <Form.Group>
                       <Form.Label>{getValue("skill_gif") || "Skill GIF"}</Form.Label>
                       <div className="gif-upload-field">
@@ -320,6 +337,28 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                       <input type="hidden" {...register("kpi.skillVideoUrl")} />
                     </Form.Group>
                   </Col>
+                </Row>
+
+                {/* KPIs */}
+                <div className="form-section-header form-section-header--sub mt-3">
+                  <span className="form-section-header__title">KPIs (%)</span>
+                </div>
+                <Row className="g-3 mt-1">
+                  {[
+                    { key: "kpi.cognition",  label: getValue("cognition")  || "Cognition" },
+                    { key: "kpi.technical",  label: getValue("technical")  || "Technical" },
+                    { key: "kpi.physical",   label: getValue("physical")   || "Physical" },
+                    { key: "kpi.psychology", label: getValue("psychology") || "Psychology" },
+                    { key: "kpi.medical",    label: getValue("medical")    || "Medical" },
+                  ].map(({ key, label }) => (
+                    <Col md={4} key={key}>
+                      <Form.Group>
+                        <Form.Label>{label}</Form.Label>
+                        <Form.Control type="number" min={0} max={100}
+                          {...register(key as any, { valueAsNumber: true, min: 0, max: 100 })} />
+                      </Form.Group>
+                    </Col>
+                  ))}
                 </Row>
 
               </Tab>

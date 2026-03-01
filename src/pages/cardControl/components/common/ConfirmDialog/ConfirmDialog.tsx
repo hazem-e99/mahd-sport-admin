@@ -1,5 +1,5 @@
 // components/common/confirm-dialog/ConfirmDialog.tsx
-import React from 'react';
+import type React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 interface ConfirmDialogProps {
@@ -33,33 +33,26 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   icon,
   size = "sm"
 }) => {
-  const defaultIcon = (
-    <i 
-      className={`fas fa-exclamation-triangle text-${confirmVariant === 'danger' ? 'warning' : confirmVariant}`} 
-      style={{ fontSize: '48px' }}
-    ></i>
-  );
-
   return (
-    <Modal show={show} onHide={onHide} centered size={size}>
+    <Modal
+      show={show} onHide={onHide} centered size={size}
+      dialogClassName="confirm-dialog-compact"
+    >
       <Modal.Header closeButton>
         <Modal.Title className='h5'>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="text-center">
-          <div className="mb-3">
-            {icon || defaultIcon}
-          </div>
-          <h5>{message}</h5>
-          {subMessage && <p className="text-muted">{subMessage}</p>}
+          <p className="mb-1" style={{ fontSize: '0.92rem' }}>{message}</p>
+          {subMessage && <p className="text-muted mb-0" style={{ fontSize: '0.8rem' }}>{subMessage}</p>}
         </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide} disabled={loading}>
           {cancelText}
         </Button>
-        <Button 
-          variant={confirmVariant} 
+        <Button
+          variant={confirmVariant}
           onClick={onConfirm}
           disabled={loading}
         >

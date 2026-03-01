@@ -587,3 +587,38 @@ html[dir="rtl"] {
 .border-brand-gray-200 {
   border-color: #e5e5e5;
 }
+
+// ── Compact Confirm Dialog ───────────────────────────────
+.confirm-dialog-compact {
+  max-width: 380px !important;
+  width: 380px !important;
+  margin: auto;
+
+  .modal-content {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    height: fit-content !important;
+    min-height: unset !important;
+  }
+
+  .modal-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f0f0f0;
+
+    .modal-title { font-size: 0.95rem; font-weight: 700; }
+    .btn-close   { padding: 8px; }
+  }
+
+  .modal-body {
+    padding: 16px 18px;
+  }
+
+  .modal-footer {
+    padding: 12px 18px;
+    border-top: 1px solid #f0f0f0;
+    gap: 8px;
+
+    .btn { padding: 7px 20px; font-size: 0.875rem; border-radius: 8px; }
+  }
+}

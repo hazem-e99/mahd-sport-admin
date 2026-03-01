@@ -9,6 +9,23 @@ interface ViewKPIModalProps {
     player: PlayerCard | null;
 }
 
+const interpolateColor = (value: number) => {
+    // 0% → lightest (#d4b8ef), 100% → primary (#773DBD)
+    const lo = { r: 212, g: 184, b: 239 };
+    const hi = { r: 119, g: 61,  b: 189 };
+    const t = value / 100;
+    const r = Math.round(lo.r + (hi.r - lo.r) * t);
+    const g = Math.round(lo.g + (hi.g - lo.g) * t);
+    const b = Math.round(lo.b + (hi.b - lo.b) * t);
+    const tr = Math.round(lo.r + (hi.r - lo.r) * t * 0.18 + lo.r * 0.82);
+    const tg = Math.round(lo.g + (hi.g - lo.g) * t * 0.18 + lo.g * 0.82);
+    const tb = Math.round(lo.b + (hi.b - lo.b) * t * 0.18 + lo.b * 0.82);
+    return {
+        color: `rgb(${r},${g},${b})`,
+        track: `rgb(${tr},${tg},${tb})`,
+    };
+};
+
 const CircleKpi = ({ label, value, color, track }: { label: string; value: number; color: string; track: string }) => {
     const r = 26;
     const circ = 2 * Math.PI * r;
@@ -43,11 +60,11 @@ const ViewKPIModal = ({ show, onHide, player }: ViewKPIModalProps) => {
     const playerName = language === 'ar' ? player.fullNameAr : player.fullNameEn;
 
     const kpis = [
-        { label: getValue("cognition")  || "Cognition",  value: player.kpi.cognition,  color: "#773DBD", track: "#ede6fa" },
-        { label: getValue("technical")  || "Technical",  value: player.kpi.technical,  color: "#4A90E2", track: "#e3eefb" },
-        { label: getValue("physical")   || "Physical",   value: player.kpi.physical,   color: "#27AE60", track: "#e2f5ea" },
-        { label: getValue("psychology") || "Psychology", value: player.kpi.psychology, color: "#E67E22", track: "#fdebd0" },
-        { label: getValue("medical")    || "Medical",    value: player.kpi.medical,    color: "#E74C3C", track: "#fde8e6" },
+        { label: getValue("cognition")  || "Cognition",  value: player.kpi.cognition,  ...interpolateColor(player.kpi.cognition)  },
+        { label: getValue("technical")  || "Technical",  value: player.kpi.technical,  ...interpolateColor(player.kpi.technical)  },
+        { label: getValue("physical")   || "Physical",   value: player.kpi.physical,   ...interpolateColor(player.kpi.physical)   },
+        { label: getValue("psychology") || "Psychology", value: player.kpi.psychology, ...interpolateColor(player.kpi.psychology) },
+        { label: getValue("medical")    || "Medical",    value: player.kpi.medical,    ...interpolateColor(player.kpi.medical)    },
     ];
 
     const overallAvg = Math.round(kpis.reduce((s, k) => s + k.value, 0) / kpis.length);
@@ -78,6 +95,12 @@ const ViewKPIModal = ({ show, onHide, player }: ViewKPIModalProps) => {
                     {player.sport        && <span className="strip-tag"><i className="strip-dot" />{player.sport}</span>}
                     {player.country      && <span className="strip-tag"><i className="strip-dot" />{player.country}</span>}
                     {player.playerNumber && <span className="strip-tag strip-tag--num">#{player.playerNumber}</span>}
+                    {player.birthDate    && (
+                        <span className="strip-tag">
+                            <i className="strip-dot" />
+                            {new Date(player.birthDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                    )}
                     <span className={`perf-chip perf-chip--${player.performance}`}>
                         {getValue(player.performance) || player.performance}
                     </span>

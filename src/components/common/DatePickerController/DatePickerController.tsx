@@ -65,8 +65,7 @@ const DatePickerController: React.FC<Props> = ({
         return (
           <>
             <div
-              className={`date-picker-container new_date flex-bar-between form-control ${error ? "is-invalid" : ""
-                }`}
+              className={`date-picker-container ${error ? "is-invalid" : ""}`}
             >
               <DatePicker
                 {...field}
@@ -80,6 +79,8 @@ const DatePickerController: React.FC<Props> = ({
                 minDate={minDate ? new Date(minDate) : undefined}
                 dateFormat={dateFormat}
                 defaultValue={defaultValue}
+                wrapperClassName="dp-wrapper"
+                placeholderText={(props as any).placeholder}
               />
             </div>
             {error?.message && (

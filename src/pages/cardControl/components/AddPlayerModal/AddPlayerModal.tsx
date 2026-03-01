@@ -5,6 +5,7 @@ import { useLanguage } from '../../context/languageContext';
 import type { PlayerCard } from '../../types/card-control.type';
 import SelectController from '@/components/common/SelectController/selectController';
 import { COUNTRIES } from '@/utils/countries';
+import DatePickerController from '@/components/common/DatePickerController/DatePickerController';
 import UploadModal from '../../pages/UploadModal/UploadModal';
 import './AddPlayerModal.scss';
 
@@ -14,6 +15,13 @@ interface AddPlayerModalProps {
     onSave: (player: PlayerCard) => void;
     player?: PlayerCard | null;
 }
+
+const SectionHeader = ({ icon, title }: { icon: React.ReactNode; title: string }) => (
+    <div className="form-section-header">
+        <span className="form-section-header__icon">{icon}</span>
+        <span className="form-section-header__title">{title}</span>
+    </div>
+);
 
 const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, player }) => {
     const { getValue } = useLanguage();
@@ -74,11 +82,24 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
                     <Modal.Title>{player ? getValue("player_details") : getValue("add_player")}</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+                    <Modal.Body style={{ maxHeight: '72vh', overflowY: 'auto' }}>
 
-                        {/* ── Player Image + Skill GIF ──────────────── */}
-                        <Row className="g-3 mb-2">
-                            <Col md={6}>
+                        {/* ═══════════════════════════════════════════
+                            SECTION 1 — Personal Info
+                        ════════════════════════════════════════════ */}
+                        <SectionHeader
+                            icon={
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8"/>
+                                    <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                                </svg>
+                            }
+                            title={getValue("personal_info") || "Personal Info"}
+                        />
+
+                        {/* Player Image */}
+                        <Row className="g-3 mb-1">
+                            <Col md={12}>
                                 <Form.Group>
                                     <Form.Label>{getValue("player_image") || "Player Image"}</Form.Label>
                                     <div className="img-upload-field">
@@ -116,6 +137,130 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
                                         )}
                                     </div>
                                     <input type="hidden" {...register("photoUrl")} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* Names */}
+                        <Row className="g-3 mt-1">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_name")} (English)</Form.Label>
+                                    <Form.Control type="text" placeholder="Enter name in English"
+                                        {...register("fullNameEn", { required: true })} isInvalid={!!errors.fullNameEn} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_name")} (Arabic)</Form.Label>
+                                    <Form.Control type="text" placeholder="ادخل الاسم بالعربية"
+                                        {...register("fullNameAr", { required: true })} isInvalid={!!errors.fullNameAr} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* Birth Date + Country */}
+                        <Row className="g-3 mt-1">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("birth_date") || "Birth Date"}</Form.Label>
+                                    <DatePickerController
+                                        name="birthDate"
+                                        control={control}
+                                        hasDefault={false}
+                                        placeholder={getValue("select_date") || "Select date"}
+                                        maxDate={new Date()}
+                                        dateFormat="dd-MM-yyyy"
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("country")}</Form.Label>
+                                    <SelectController
+                                        control={control} name="country" options={COUNTRIES} required
+                                        getOptionLabel={(option: any) => option.label}
+                                        getOptionValue={(option: any) => option.label}
+                                        placeholder={getValue("select")}
+                                        menuPlacement="bottom"
+                                        menuPosition="fixed"
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* ═══════════════════════════════════════════
+                            SECTION 2 — Sport Info
+                        ════════════════════════════════════════════ */}
+                        <SectionHeader
+                            icon={
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8"/>
+                                    <path d="M12 3c0 0 3 4 3 9s-3 9-3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                    <path d="M12 3c0 0-3 4-3 9s3 9 3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                    <path d="M3 12h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                </svg>
+                            }
+                            title={getValue("sport_info") || "Sport Info"}
+                        />
+
+                        {/* Sport + Position + Number */}
+                        <Row className="g-3 mt-1">
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("sport")}</Form.Label>
+                                    <SelectController
+                                        control={control} name="sport" required
+                                        options={[
+                                            { value: "football",   label: getValue("football")   || "Football" },
+                                            { value: "athletics",  label: getValue("athletics")  || "Athletics" },
+                                            { value: "judo",       label: getValue("judo")       || "Judo" },
+                                            { value: "tennis",     label: getValue("tennis")     || "Tennis" },
+                                            { value: "taekwondo",  label: getValue("taekwondo")  || "Taekwondo" },
+                                            { value: "swimming",   label: getValue("swimming")   || "Swimming" },
+                                        ]}
+                                        getOptionLabel={(o: any) => o.label}
+                                        getOptionValue={(o: any) => o.value}
+                                        placeholder={getValue("select")}
+                                        menuPlacement="bottom"
+                                        menuPosition="fixed"
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("position")}</Form.Label>
+                                    <Form.Control type="text"
+                                        {...register("position", { required: true })} isInvalid={!!errors.position} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_number")}</Form.Label>
+                                    <Form.Control type="text"
+                                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* Performance + Skill GIF */}
+                        <Row className="g-3 mt-1">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("performance")}</Form.Label>
+                                    <SelectController
+                                        control={control} name="performance" required
+                                        options={[
+                                            { value: "diamond", label: getValue("diamond") || "Diamond" },
+                                            { value: "gold",    label: getValue("gold")    || "Gold" },
+                                            { value: "silver",  label: getValue("silver")  || "Silver" },
+                                        ]}
+                                        getOptionLabel={(o: any) => o.label}
+                                        getOptionValue={(o: any) => o.value}
+                                        placeholder={getValue("select")}
+                                        menuPlacement="bottom"
+                                        menuPosition="fixed"
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col md={6}>
@@ -158,111 +303,17 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
                             </Col>
                         </Row>
 
-                        <hr className="section-divider" />
-
-                        {/* ── Names ────────────────────────────────── */}
-                        <Row className="g-3">
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("player_name")} (English)</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter name in English"
-                                        {...register("fullNameEn", { required: true })} isInvalid={!!errors.fullNameEn} />
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("player_name")} (Arabic)</Form.Label>
-                                    <Form.Control type="text" placeholder="ادخل الاسم بالعربية"
-                                        {...register("fullNameAr", { required: true })} isInvalid={!!errors.fullNameAr} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
-                        {/* ── Sport / Number / Position ─────────────── */}
-                        <Row className="g-3 mt-1">
-                            <Col md={4}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("sport")}</Form.Label>
-                                    <SelectController
-                                        control={control} name="sport" required
-                                        options={[
-                                            { value: "football",   label: getValue("football")   || "Football" },
-                                            { value: "athletics",  label: getValue("athletics")  || "Athletics" },
-                                            { value: "judo",       label: getValue("judo")       || "Judo" },
-                                            { value: "tennis",     label: getValue("tennis")     || "Tennis" },
-                                            { value: "taekwondo",  label: getValue("taekwondo")  || "Taekwondo" },
-                                            { value: "swimming",   label: getValue("swimming")   || "Swimming" },
-                                        ]}
-                                        getOptionLabel={(o: any) => o.label}
-                                        getOptionValue={(o: any) => o.value}
-                                        placeholder={getValue("select")}
-                                        menuPlacement="bottom"
-                                        menuPosition="fixed"
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={4}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("player_number")}</Form.Label>
-                                    <Form.Control type="text"
-                                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
-                                </Form.Group>
-                            </Col>
-                            <Col md={4}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("position")}</Form.Label>
-                                    <Form.Control type="text"
-                                        {...register("position", { required: true })} isInvalid={!!errors.position} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
-                        {/* ── Country / Performance ─────────────────── */}
-                        <Row className="g-3 mt-1">
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("country")}</Form.Label>
-                                    <SelectController
-                                        control={control} name="country" options={COUNTRIES} required
-                                        getOptionLabel={(option: any) => option.label}
-                                        getOptionValue={(option: any) => option.label}
-                                        placeholder={getValue("select")}
-                                        menuPlacement="bottom"
-                                        menuPosition="fixed"
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Group>
-                                    <Form.Label>{getValue("performance")}</Form.Label>
-                                    <SelectController
-                                        control={control} name="performance" required
-                                        options={[
-                                            { value: "diamond", label: getValue("diamond") || "Diamond" },
-                                            { value: "gold",    label: getValue("gold")    || "Gold" },
-                                            { value: "silver",  label: getValue("silver")  || "Silver" },
-                                        ]}
-                                        getOptionLabel={(o: any) => o.label}
-                                        getOptionValue={(o: any) => o.value}
-                                        placeholder={getValue("select")}
-                                        menuPlacement="bottom"
-                                        menuPosition="fixed"
-                                    />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-
-                        <hr className="section-divider mt-4" />
-                        <span className="kpi-section-title">KPIs (%)</span>
-
-                        {/* ── KPIs ──────────────────────────────────── */}
+                        {/* KPIs */}
+                        <div className="form-section-header form-section-header--sub mt-3">
+                            <span className="form-section-header__title">KPIs (%)</span>
+                        </div>
                         <Row className="g-3 mt-1">
                             {[
-                                { key: "kpi.cognition", label: getValue("cognition") },
-                                { key: "kpi.technical", label: getValue("technical") },
-                                { key: "kpi.physical", label: getValue("physical") },
-                                { key: "kpi.psychology", label: getValue("psychology") },
-                                { key: "kpi.medical", label: getValue("medical") },
+                                { key: "kpi.cognition",  label: getValue("cognition")  || "Cognition" },
+                                { key: "kpi.technical",  label: getValue("technical")  || "Technical" },
+                                { key: "kpi.physical",   label: getValue("physical")   || "Physical" },
+                                { key: "kpi.psychology", label: getValue("psychology") || "Psychology" },
+                                { key: "kpi.medical",    label: getValue("medical")    || "Medical" },
                             ].map(({ key, label }) => (
                                 <Col md={4} key={key}>
                                     <Form.Group>

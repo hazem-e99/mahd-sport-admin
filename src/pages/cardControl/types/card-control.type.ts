@@ -21,6 +21,7 @@ export interface PlayerCard {
   performance: PerformanceLevel;
   photoUrl: string | null;
   birthYear?: string;
+  birthDate?: string;
   location?: string;
   status: boolean;
   orderIndex: number;
