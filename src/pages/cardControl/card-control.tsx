@@ -26,8 +26,7 @@ const STATIC_PLAYERS: PlayerCard[] = [
     sport: "Football",
     playerNumber: "10",
     position: "Forward",
-    country: "Saudi Arabia",
-    countryCode: "SA",
+    nationality: { Id: 194, NameEn: "Saudi Arabia", NameAr: "المملكة العربية السعودية", Code: "SA", Image: "" },
     performance: "diamond",
     photoUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmed",
     status: true,
@@ -48,8 +47,7 @@ const STATIC_PLAYERS: PlayerCard[] = [
     sport: "Football",
     playerNumber: "29",
     position: "Winger",
-    country: "Saudi Arabia",
-    countryCode: "SA",
+    nationality: { Id: 194, NameEn: "Saudi Arabia", NameAr: "المملكة العربية السعودية", Code: "SA", Image: "" },
     performance: "gold",
     photoUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Salem",
     status: true,
@@ -70,8 +68,7 @@ const STATIC_PLAYERS: PlayerCard[] = [
     sport: "Football",
     playerNumber: "28",
     position: "Midfielder",
-    country: "Saudi Arabia",
-    countryCode: "SA",
+    nationality: { Id: 194, NameEn: "Saudi Arabia", NameAr: "المملكة العربية السعودية", Code: "SA", Image: "" },
     performance: "silver",
     photoUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mohamed",
     status: false,
@@ -155,7 +152,7 @@ const CardControl: React.FC = () => {
           "Sport":           p.sport,
           "Player Number":   p.playerNumber,
           "Position":        p.position,
-          "Country":         p.country,
+          "Country":         p.nationality?.NameEn ?? "",
           "Birth Year":      p.birthYear ?? "",
           "Location":        p.location ?? "",
           "Performance":     p.performance,
@@ -282,7 +279,7 @@ const CardControl: React.FC = () => {
         return <td key={col.key}>{player.position}</td>;
 
       case "country":
-        return <td key={col.key}>{player.country}</td>;
+        return <td key={col.key}>{language === 'ar' ? player.nationality?.NameAr : player.nationality?.NameEn}</td>;
 
       case "performance":
         return <td key={col.key}>{getPerformanceBadge(player.performance)}</td>;
@@ -338,7 +335,7 @@ const CardControl: React.FC = () => {
     { key: "sport", label: getValue("sport") },
     { key: "playerNumber", label: getValue("player_number") },
     { key: "position", label: getValue("position") },
-    { key: "country", label: getValue("country") },
+    { key: "country", label: getValue("nationality") },
     { key: "performance", label: getValue("performance") },
     { key: "status", label: getValue("status") },
     { key: "actions", label: getValue("actions") }

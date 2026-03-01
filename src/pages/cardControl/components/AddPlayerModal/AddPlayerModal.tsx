@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useLanguage } from '../../context/languageContext';
 import type { PlayerCard } from '../../types/card-control.type';
 import SelectController from '@/components/common/SelectController/selectController';
-import { COUNTRIES } from '@/utils/countries';
+import { NATIONALITIES } from '@/utils/countries';
 import DatePickerController from '@/components/common/DatePickerController/DatePickerController';
 import UploadModal from '../../pages/UploadModal/UploadModal';
 import './AddPlayerModal.scss';
@@ -24,10 +24,9 @@ const SectionHeader = ({ icon, title }: { icon: React.ReactNode; title: string }
 );
 
 const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, player }) => {
-    const { getValue } = useLanguage();
+    const { getValue, language } = useLanguage();
     const { register, handleSubmit, reset, formState: { errors }, control, setValue, watch, trigger, clearErrors } = useForm<PlayerCard>();
 
-    const selectedCountry = watch("country");
     const photoUrl = watch("photoUrl");
     const gifUrl = watch("kpi.skillVideoUrl");
 
@@ -50,7 +49,7 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
         } else {
             reset({
                 id: "", fullNameEn: "", fullNameAr: "", sport: "",
-                playerNumber: "", position: "", country: "", countryCode: "",
+                playerNumber: "", position: "", nationality: null,
                 performance: "silver", photoUrl: "", status: true,
                 kpi: { cognition: 0, technical: 0, physical: 0, psychology: 0, medical: 0, skillVideoUrl: "" }
             });
@@ -59,12 +58,7 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
         }
     }, [player, reset]);
 
-    useEffect(() => {
-        if (selectedCountry) {
-            const countryEntry = COUNTRIES.find(c => c.label === selectedCountry);
-            if (countryEntry) setValue("countryCode", countryEntry.value);
-        }
-    }, [selectedCountry, setValue]);
+
 
     const onSubmit = (data: PlayerCard) => {
         onSave({
@@ -159,7 +153,7 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
                             </Col>
                         </Row>
 
-                        {/* Birth Date + Country */}
+                        {/* Birth Date */}
                         <Row className="g-3 mt-1">
                             <Col md={6}>
                                 <Form.Group>
@@ -174,17 +168,51 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
                                     />
                                 </Form.Group>
                             </Col>
+                        </Row>
+
+                        {/* ═══════════════════════════════════════════
+                            SECTION — Nationality Info
+                        ════════════════════════════════════════════ */}
+                        <SectionHeader
+                            icon={
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+                                    <path d="M3 9h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                    <path d="M7 13h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                </svg>
+                            }
+                            title={getValue("nationality") || "Nationality"}
+                        />
+                        <Row className="g-3 mt-1">
                             <Col md={6}>
                                 <Form.Group>
-                                    <Form.Label>{getValue("country")}</Form.Label>
-                                    <SelectController
-                                        control={control} name="country" options={COUNTRIES} required
-                                        getOptionLabel={(option: any) => option.label}
-                                        getOptionValue={(option: any) => option.label}
-                                        placeholder={getValue("select")}
-                                        menuPlacement="bottom"
-                                        menuPosition="fixed"
-                                    />
+                                    <Form.Label>{getValue("name_en") || "Name (English)"}</Form.Label>
+                                    <Form.Control type="text" placeholder="e.g. Saudi Arabia"
+                                        {...register("nationality.NameEn")} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("name_ar") || "Name (Arabic)"}</Form.Label>
+                                    <Form.Control type="text" placeholder="مثال: المملكة العربية السعودية" dir="rtl"
+                                        {...register("nationality.NameAr")} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row className="g-3 mt-1">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("country_code") || "Code"}</Form.Label>
+                                    <Form.Control type="text" placeholder="e.g. SA" maxLength={5}
+                                        style={{ textTransform: "uppercase" }}
+                                        {...register("nationality.Code")} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("flag_image") || "Flag Image URL"}</Form.Label>
+                                    <Form.Control type="text" placeholder="https://..." 
+                                        {...register("nationality.Image")} />
                                 </Form.Group>
                             </Col>
                         </Row>

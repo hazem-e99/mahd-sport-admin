@@ -141,8 +141,8 @@ const PlayerCardPreview: React.FC<PlayerCardPreviewProps> = ({ player }) => {
         {/* FRONT: flag + year */}
         <div className="pc__bottom pc__bottom--front">
           <div className="pc__flag-row">
-            <img src="/assets/card-layers/Flag.png" className="pc__flag" alt="SA" />
-            <span className="pc__country">{player.country?.toUpperCase() ?? "SAUDI ARABIA"}</span>
+            <img src="/assets/card-layers/Flag.png" className="pc__flag" alt={player.nationality?.Code ?? "SA"} />
+            <span className="pc__country">{(language === 'ar' ? player.nationality?.NameAr : player.nationality?.NameEn)?.toUpperCase() ?? "SAUDI ARABIA"}</span>
           </div>
           <span className="pc__year">{year}</span>
         </div>

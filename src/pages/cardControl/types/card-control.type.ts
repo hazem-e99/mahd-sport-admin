@@ -7,6 +7,14 @@ export interface PlayerKPI {
   skillVideoUrl: string;
 }
 
+export interface Nationality {
+  Id: number;
+  NameAr: string;
+  NameEn: string;
+  Code: string;
+  Image: string;
+}
+
 export type PerformanceLevel = "diamond" | "gold" | "silver";
 
 export interface PlayerCard {
@@ -16,8 +24,7 @@ export interface PlayerCard {
   sport: string;
   playerNumber: string;
   position: string;
-  country: string;
-  countryCode: string;
+  nationality: Nationality | null;
   performance: PerformanceLevel;
   photoUrl: string | null;
   birthYear?: string;

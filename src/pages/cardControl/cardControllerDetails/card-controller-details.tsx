@@ -10,7 +10,7 @@ import { useLanguage } from "../context/languageContext";
 import type { PlayerCard } from "../types/card-control.type";
 import PlayerCardPreview from "../components/PlayerCardPreview/PlayerCardPreview";
 import SelectController from "@/components/common/SelectController/selectController";
-import { COUNTRIES } from "@/utils/countries";
+import { NATIONALITIES } from '@/utils/countries';
 import DatePickerController from "@/components/common/DatePickerController/DatePickerController";
 import './card-controller-details.scss';
 
@@ -41,7 +41,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
   const gifUrl    = watch("kpi.skillVideoUrl");
   const order     = watch("orderIndex");
   const showUser  = watch("status");
-  const selectedCountry = watch("country");
+  const selectedCountry = watch("nationality.Code");
 
   useEffect(() => {
     if (employee) {
@@ -56,13 +56,6 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
       }
     }
   }, [employee, reset]);
-
-  useEffect(() => {
-    if (selectedCountry) {
-      const countryEntry = COUNTRIES.find(c => c.label === selectedCountry);
-      if (countryEntry) setValue("countryCode", countryEntry.value);
-    }
-  }, [selectedCountry, setValue]);
 
   const handleClose = useCallback(() => setShow(false), [setShow]);
 
@@ -175,7 +168,7 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                   </Col>
                 </Row>
 
-                {/* Birth Date + Country */}
+                {/* Birth Date */}
                 <Row className="g-3 mt-1">
                   <Col md={6}>
                     <Form.Group>
@@ -191,17 +184,49 @@ const CardDetails = ({ show, setShow, employee, onEmployeeUpdated }: Props) => {
                       />
                     </Form.Group>
                   </Col>
+                </Row>
+
+                {/* ═══════ SECTION — Nationality Info ═══════ */}
+                <div className="form-section-header">
+                  <span className="form-section-header__icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.8"/>
+                      <path d="M3 9h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M7 13h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                  <span className="form-section-header__title">{getValue("nationality") || "Nationality"}</span>
+                </div>
+                <Row className="g-3">
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label>{getValue("country")}</Form.Label>
-                      <SelectController
-                        control={control} name="country" options={COUNTRIES} required
-                        getOptionLabel={(option: any) => option.label}
-                        getOptionValue={(option: any) => option.label}
-                        placeholder={getValue("select")}
-                        menuPlacement="bottom"
-                        menuPosition="fixed"
-                      />
+                      <Form.Label>{getValue("name_en") || "Name (English)"}</Form.Label>
+                      <Form.Control type="text" placeholder="e.g. Saudi Arabia"
+                        {...register("nationality.NameEn")} />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>{getValue("name_ar") || "Name (Arabic)"}</Form.Label>
+                      <Form.Control type="text" placeholder="مثال: المملكة العربية السعودية" dir="rtl"
+                        {...register("nationality.NameAr")} />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row className="g-3 mt-1">
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>{getValue("country_code") || "Code"}</Form.Label>
+                      <Form.Control type="text" placeholder="e.g. SA" maxLength={5}
+                        style={{ textTransform: "uppercase" }}
+                        {...register("nationality.Code")} />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>{getValue("flag_image") || "Flag Image URL"}</Form.Label>
+                      <Form.Control type="text" placeholder="https://..."
+                        {...register("nationality.Image")} />
                     </Form.Group>
                   </Col>
                 </Row>

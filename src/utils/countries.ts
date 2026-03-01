@@ -3,6 +3,15 @@ export interface CountryOption {
     label: string;
 }
 
+// Nationality matches the backend Nationality class
+export interface Nationality {
+    Id: number;
+    NameAr: string;
+    NameEn: string;
+    Code: string;
+    Image: string;
+}
+
 export const COUNTRIES: CountryOption[] = [
     { value: "AF", label: "Afghanistan" },
     { value: "AX", label: "Åland Islands" },
@@ -252,3 +261,23 @@ export const COUNTRIES: CountryOption[] = [
     { value: "ZM", label: "Zambia" },
     { value: "ZW", label: "Zimbabwe" }
 ];
+
+// Arabic name overrides for common countries
+const AR_NAMES: Record<string, string> = {
+  SA: "المملكة العربية السعودية", EG: "مصر", AE: "الإمارات العربية المتحدة",
+  JO: "الأردن", KW: "الكويت", QA: "قطر", BH: "البحرين", OM: "عُمان",
+  IQ: "العراق", SY: "سوريا", LB: "لبنان", YE: "اليمن", LY: "ليبيا",
+  TN: "تونس", DZ: "الجزائر", MA: "المغرب", SD: "السودان", SO: "الصومال",
+  PS: "فلسطين", TR: "تركيا", IR: "إيران", PK: "باكستان", IN: "الهند",
+  GB: "المملكة المتحدة", US: "الولايات المتحدة", FR: "فرنسا", DE: "ألمانيا",
+  ES: "إسبانيا", IT: "إيطاليا", BR: "البرازيل", AR: "الأرجنتين",
+};
+
+// Derived from COUNTRIES — matches backend Nationality class exactly
+export const NATIONALITIES: Nationality[] = COUNTRIES.map((c, i) => ({
+    Id: i + 1,
+    NameEn: c.label,
+    NameAr: AR_NAMES[c.value] ?? c.label,
+    Code: c.value,
+    Image: "",
+}));
