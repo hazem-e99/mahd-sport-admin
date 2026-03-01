@@ -1,22 +1,348 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-// Order number styles
-.order-number {
-  font-weight: 500;
-  color: var(--bs-gray-700);
-  font-size: 0.9rem;
+// ══════════════════════════════════════════════
+//  Card Control Page
+// ══════════════════════════════════════════════
+
+.card-control-page {
+  .card {
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    border-radius: 12px !important;
+
+    // ── Card Header ───────────────────────────
+    .card-header {
+      border-bottom: 1px solid $color-gray-200;
+      padding: 1.25rem 1.5rem;
+
+      h1 {
+        font-family: "Mahd Favorit Arabic", sans-serif !important;
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $text-primary-color;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .badge {
+          background-color: $color-primary-light;
+          color: $color-primary;
+          padding: 3px 10px;
+          border-radius: 20px;
+          font-size: $font-size-sm;
+          font-weight: 700;
+          min-width: 28px;
+          text-align: center;
+        }
+      }
+    }
+
+    // ── Filter / Search Bar ───────────────────
+    .card-body {
+      .filter-container {
+        @include flex-bar-between;
+        flex-wrap: wrap;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid $color-gray-200;
+        gap: 12px;
+
+        .search-box {
+          flex: 1;
+          max-width: 360px;
+          min-width: 220px;
+
+          .position-relative {
+            position: relative;
+
+            .search-box-icon {
+              position: absolute;
+              inset-inline-start: 12px;
+              top: 50%;
+              transform: translateY(-50%);
+              color: $color-gray-800;
+              z-index: 2;
+              pointer-events: none;
+              display: flex;
+              align-items: center;
+
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+            }
+
+            .search-box-input {
+              font-family: "Mahd Favorit Arabic", sans-serif !important;
+              height: $input-height;
+              width: 100%;
+              padding: 0 0.875rem 0 2.5rem;
+              border: 1.5px solid $input-border-color;
+              border-radius: $border-radius-md;
+              font-size: $font-size-md;
+              color: $text-primary-color;
+              background-color: $color-white;
+              transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+              &:focus {
+                border-color: $color-primary;
+                box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+                outline: none;
+              }
+
+              &::placeholder {
+                color: $color-gray-800;
+                font-size: $font-size-md;
+              }
+
+              html[dir="rtl"] & {
+                padding: 0 2.5rem 0 0.875rem;
+              }
+            }
+          }
+        }
+      }
+
+      // ── Table Wrapper ─────────────────────────
+      .table-wrapper {
+        overflow-x: auto;
+      }
+    }
+  }
 }
 
-// Excel Split Dropdown Styles — Modern Redesign
+// ══════════════════════════════════════════════
+//  Shared Table — Card Control overrides
+// ══════════════════════════════════════════════
+
+.card-control-page {
+  .shared-table-container {
+
+    table {
+      thead {
+        tr {
+          background-color: $color-gray-100;
+
+          th {
+            font-family: "Mahd Favorit Arabic", sans-serif !important;
+            font-size: $font-size-sm;
+            font-weight: 600;
+            color: $color-gray-400;
+            padding: 14px 20px;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            border: none;
+            cursor: default !important;
+            user-select: none;
+
+            html[dir="rtl"] & { text-align: right; }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid $color-gray-200;
+          transition: background-color 0.15s ease;
+
+          &:hover { background-color: #fafafa; }
+          &:last-child { border-bottom: none; }
+
+          td {
+            font-family: "Mahd Favorit Arabic", sans-serif !important;
+            font-size: $font-size-md;
+            font-weight: 400;
+            color: $text-primary-color;
+            padding: 14px 20px;
+            vertical-align: middle;
+            border: none;
+          }
+        }
+      }
+    }
+
+    // ── Player cell ─────────────────────────────
+    .employee-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: $border-radius-circle;
+        overflow: hidden;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $color-primary-light;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .employee-details {
+        min-width: 0;
+        flex: 1;
+
+        .name {
+          font-family: "Mahd Favorit Arabic", sans-serif !important;
+          font-size: $font-size-md;
+          font-weight: 600;
+          color: $text-primary-color;
+          margin: 0;
+          line-height: 1.4;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    // ── Player avatar cell ───────────────────────
+    .player-avatar-cell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .player-avatar-img {
+        width: 44px;
+        height: 44px;
+        border-radius: $border-radius-circle;
+        object-fit: cover;
+        border: 2px solid $color-primary-light;
+        background-color: $color-gray-300;
+        flex-shrink: 0;
+        display: block;
+      }
+    }
+
+    // ── Action buttons ──────────────────────────
+    .btn-link {
+      color: $color-gray-800;
+      transition: color 0.15s ease;
+      line-height: 1;
+      padding: 6px !important;
+
+      &:hover { color: $color-primary; }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+//  Performance Badge
+// ══════════════════════════════════════════════
+
+.badge {
+  font-family: "Mahd Favorit Arabic", sans-serif !important;
+  font-size: $font-size-sm !important;
+  font-weight: 600 !important;
+  border-radius: 20px !important;
+  padding: 4px 12px !important;
+  text-transform: capitalize;
+  letter-spacing: 0.01em;
+}
+
+// ══════════════════════════════════════════════
+//  Status Switch
+// ══════════════════════════════════════════════
+
+.custom-status-switch {
+  position: relative;
+  display: inline-block;
+
+  .switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+
+    &:checked + .switch-label {
+      background-color: #10b981;
+      border-color: #10b981;
+
+      &::before { transform: translateX(49px); }
+
+      .switch-text {
+        color: $color-white;
+        left: 8px;
+        right: auto;
+      }
+    }
+
+    &:focus + .switch-label {
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  .switch-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 73px;
+    height: 26px;
+    background-color: #e5e7eb;
+    border: 2px solid #e5e7eb;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      background-color: $color-white;
+      border-radius: 50%;
+      transition: all 0.25s ease;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .switch-text {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: 10px;
+      font-weight: 700;
+      color: #6b7280;
+      z-index: 1;
+      position: absolute;
+      right: 8px;
+      left: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      transition: all 0.25s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════
+//  Excel Split Dropdown
+// ══════════════════════════════════════════════
+
 .excel-split-dropdown {
   background-color: $color-white;
   border: 1.5px solid $color-primary-light;
   border-radius: 10px;
   overflow: visible;
   transition: $transition;
-  height: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
 
   &:hover {
     border-color: $color-primary;
@@ -30,25 +356,25 @@
     align-items: center;
     gap: 8px;
     padding: 9px 16px;
+    font-family: "Mahd Favorit Arabic", sans-serif !important;
     font-size: $font-size-md;
     font-weight: 500;
     color: $text-primary-color;
     transition: $transition;
+    box-shadow: none !important;
 
     &:hover,
     &:focus,
     &:active {
       background-color: $color-primary-light;
       color: $color-primary;
-      box-shadow: none !important;
     }
   }
 
   .excel-btn-label {
-    font-weight: 600;
+    font-weight: 700;
     font-size: $font-size-md;
     color: $color-primary;
-    letter-spacing: 0.01em;
   }
 
   .excel-main-btn {
@@ -66,34 +392,28 @@
       vertical-align: middle;
       border-top: 0.32em solid;
       border-right: 0.32em solid transparent;
-      border-bottom: 0;
       border-left: 0.32em solid transparent;
       color: $color-primary;
     }
-
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: $color-primary-light !important;
-      box-shadow: none !important;
-    }
   }
 
+  // ── Dropdown Menu ─────────────────────────────
   .excel-dropdown-menu {
     border-radius: 12px;
-    border: 1px solid $color-primary-light;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10), 0 2px 6px rgba($color-primary, 0.07);
+    border: 1.5px solid $color-primary-light;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba($color-primary, 0.07);
     padding: 6px;
-    min-width: 175px;
+    min-width: 180px;
     margin-top: 6px !important;
     animation: dropdownFadeIn 0.15s ease;
 
     @keyframes dropdownFadeIn {
-      from { opacity: 0; transform: translateY(-6px); }
+      from { opacity: 0; transform: translateY(-5px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     .excel-menu-item {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
       padding: 9px 12px;
       border-radius: 8px;
       font-size: $font-size-md;
@@ -101,7 +421,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #374151;
+      color: $text-secondary-color;
       transition: $transition;
 
       &:hover {
@@ -118,14 +438,18 @@
         width: 28px;
         height: 28px;
         border-radius: 6px;
-        transition: $transition;
-        flex-shrink: 0;
         background-color: $color-primary-light;
         color: $color-primary;
+        flex-shrink: 0;
+        transition: $transition;
       }
     }
   }
 }
+
+// ══════════════════════════════════════════════
+//  RTL overrides
+// ══════════════════════════════════════════════
 
 html[dir="rtl"] {
   .excel-split-dropdown {
@@ -133,414 +457,11 @@ html[dir="rtl"] {
       border-inline-end: 1.5px solid $color-primary-light;
     }
   }
-}
 
-// Avatar styles
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .avatar-initials {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: var(--Primary-Color-50, #f2ecf9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $color-primary;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-}
-
-// Main Container
-.card-control-page {
-  .card {
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    // Header Section
-    .card-header {
-      border-bottom: 1px solid $color-gray-200;
-
-      .header-row {
-        @include flex-bar-between;
-        flex-wrap: wrap;
-
-        h1 {
-          font-size: $font-size-3xl;
-          font-weight: 600;
-          color: $text-primary-color;
-          margin: 0;
-          @include flex-bar-start;
-          gap: 12px;
-
-          .badge {
-            background-color: $color-secondary;
-            color: $color-white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: $font-size-sm;
-            font-weight: 600;
-            min-width: 24px;
-            text-align: center;
-          }
-        }
-      }
-    }
-
-    // Body Section
-    .card-body {
-
-      // Filter Container
-      .filter-container {
-        @include flex-bar-between;
-        flex-wrap: wrap;
-        padding: 16px 20px;
-        border-bottom: 1px solid $color-gray-200;
-        gap: 16px;
-
-        .search-box {
-          flex: 1;
-          max-width: 400px;
-          min-width: 250px;
-
-          .position-relative {
-            position: relative;
-
-            .search-box-icon {
-              position: absolute;
-              left: 12px;
-              top: 50%;
-              transform: translateY(-50%);
-              color: $color-gray-800;
-              z-index: 2;
-              pointer-events: none;
-
-              svg {
-                width: 16px;
-                height: 16px;
-              }
-            }
-
-            .search-box-input {
-              width: 100%;
-              padding: 10px 12px 10px 40px;
-              border: 1px solid $input-border-color;
-              border-radius: $border-radius-sm;
-              font-size: $font-size-md;
-              transition: $transition;
-
-              &:focus {
-                border-color: $color-primary;
-                box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
-                outline: none;
-              }
-
-              &::placeholder {
-                color: $color-gray-800;
-              }
-            }
-          }
-        }
-
-        .filter-dropdown {
-          .form-select {
-            min-width: 150px;
-            border: 1px solid $input-border-color;
-            border-radius: $border-radius-sm;
-            padding: 8px 12px;
-            font-size: $font-size-md;
-            background-color: $color-white;
-            transition: $transition;
-
-            &:focus {
-              border-color: $color-primary;
-              box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
-              outline: none;
-            }
-          }
-        }
-      }
-
-      // Table Wrapper
-      .table-wrapper {
-        overflow-x: auto;
-
-        // Search States
-        .search-indicator,
-        .search-hint {
-          border-bottom: 1px solid $color-gray-200;
-          background-color: lighten($color-primary, 45%);
-
-          small {
-            color: $color-gray-800;
-            font-style: italic;
-          }
-        }
-
-        .search-hint {
-          background-color: lighten($color-gray-800, 30%);
-        }
-
-        // Loading & Error States
-        .text-center {
-          padding: 40px 20px;
-          font-size: $font-size-lg;
-
-          &.text-danger {
-            color: $alert-red-color !important;
-          }
-        }
-      }
-    }
-  }
-}
-
-// ===== TABLE STYLES =====
-.card-control-page {
-  .shared-table-container {
-    table {
-      tbody {
-        tr {
-          border-bottom: 1px solid $color-gray-200;
-          transition: $transition;
-
-          &:hover {
-            background-color: $color-gray-100;
-          }
-
-          &:last-child {
-            border-bottom: none;
-          }
-
-          td {
-            padding: 16px 20px;
-            vertical-align: middle;
-            font-size: $font-size-md;
-
-            // Employee Info Cell
-            .employee-info {
-              @include flex-bar-start;
-              gap: 12px;
-
-              .avatar {
-                width: 40px;
-                height: 40px;
-                border-radius: $border-radius-circle;
-                overflow: hidden;
-                flex-shrink: 0;
-                @include flex-bar-center;
-
-                img {
-                  @include img-property;
-                  border-radius: $border-radius-circle;
-                }
-              }
-
-              .employee-details {
-                min-width: 0;
-                flex: 1;
-
-                .name {
-                  font-weight: 600;
-                  // color: $text-primary-color;
-                  margin: 0 0 4px 0;
-                  font-size: $font-size-md;
-                  line-height: 1.4;
-                  word-break: break-word;
-                  overflow: hidden;
-                  color: var(--Gray-900, #181d27);
-                  text-overflow: ellipsis;
-                  font-weight: 500;
-                  line-height: 20px;
-                }
-
-                .email {
-                  font-size: $font-size-sm;
-                  margin: 0;
-                  line-height: 1.4;
-                  word-break: break-all;
-                  color: var(--Gray-600, #535862);
-                  text-overflow: ellipsis;
-                  font-weight: 400;
-                  line-height: 20px;
-                }
-              }
-            }
-
-            // Phone Number Cell
-            .phone-number {
-              font-size: $font-size-md;
-              color: $text-secondary-color;
-            }
-
-            // Job Title Cell
-            .job-title {
-              font-size: $font-size-md;
-              color: $text-secondary-color;
-              font-weight: 500;
-            }
-
-            // Department Cell
-            .department {
-              font-size: $font-size-md;
-              color: $text-secondary-color;
-            }
-
-
-            // Actions Cell
-            .actions-container {
-              @include flex-bar-center;
-              gap: 8px;
-
-              .action-btn {
-                background: none;
-                border: none;
-                cursor: pointer;
-                padding: 8px;
-                border-radius: $border-radius-sm;
-                transition: $transition;
-                @include flex-bar-center;
-                width: 32px;
-                height: 32px;
-
-                &--edit {
-                  color: $color-gray-800;
-
-                  &:hover {
-                    background-color: $color-gray-100;
-                    color: $color-primary;
-                  }
-
-                  &:focus {
-                    outline: 2px solid $color-primary;
-                    outline-offset: 2px;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/* Custom Status Switch with Text Inside */
-.status-switch-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-
-  .custom-status-switch {
-    position: relative;
-    display: inline-block;
-
-    .switch-input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      position: absolute;
-
-      &:checked+.switch-label {
-        background-color: #10b981;
-        border-color: #10b981;
-
-        &::before {
-          transform: translateX(49px);
-        }
-
-        .switch-text {
-          color: white;
-          left: 8px;
-          right: auto;
-        }
-      }
-
-      &:disabled+.switch-label {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-
-      &:focus+.switch-label {
-        box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
-      }
-    }
-
-    .switch-label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 73px;
-      height: 24px;
-      flex-shrink: 0;
-      background-color: #e5e7eb;
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 16px;
-        height: 16px;
-        background-color: white;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        z-index: 2;
-      }
-
-      .switch-text {
-        font-size: 10px;
-        font-weight: 600;
-        color: #6b7280;
-        z-index: 1;
-        position: absolute;
-        right: 8px;
-        left: auto;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-        pointer-events: none;
-      }
-
-      &:hover {
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
-      }
-    }
-  }
-
-  .updating-indicator {
-    position: absolute;
-    right: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    .spinner-border {
-      width: 16px;
-      height: 16px;
-      color: #10b981;
+  .card-control-page {
+    .search-box-icon {
+      left: auto;
+      right: 12px;
     }
   }
 }

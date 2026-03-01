@@ -349,47 +349,167 @@ textarea.form-control {
   }
 }
 
-// Select styling
+// ══════════════════════════════════════════════════════════
+// Global React-Select — Mahd Design System
+// ══════════════════════════════════════════════════════════
 .react-select-container {
+
+  // ── Control (the visible input box) ─────────────────────
   .react-select__control {
-    min-height: calc(2.3rem + 2px);
-    border-radius: $border-radius-sm;
-    border: 1px solid #ced4da;
-    box-shadow: none;
+    height: $input-height;
+    min-height: $input-height;
+    border: 1.5px solid $input-border-color !important;
+    border-radius: $border-radius-md !important;
+    box-shadow: none !important;
+    background-color: $color-white;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
-      border-color: #ced4da;
+      border-color: $color-primary !important;
     }
 
     &--is-focused {
-      border-color: rgba($color-primary, 0.4) !important;
-      box-shadow: none !important;
+      border-color: $color-primary !important;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1) !important;
     }
+
+    &--is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: $color-gray-300;
+    }
+  }
+
+  .react-select__value-container {
+    padding: 0 0.875rem;
+    height: 100%;
   }
 
   .react-select__placeholder {
-    color: #6c757d;
+    font-size: $font-size-md;
+    color: $color-gray-800;
+    margin: 0;
   }
 
+  .react-select__single-value {
+    font-size: $font-size-md;
+    color: $text-primary-color;
+    margin: 0;
+  }
+
+  .react-select__input-container {
+    font-size: $font-size-md;
+    margin: 0;
+    padding: 0;
+  }
+
+  .react-select__multi-value {
+    background-color: $color-primary-light;
+    border-radius: 4px;
+
+    &__label {
+      font-size: $font-size-sm;
+      color: $color-primary;
+      font-weight: 600;
+    }
+
+    &__remove {
+      color: $color-primary;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba($color-primary, 0.2);
+        color: $color-primary;
+      }
+    }
+  }
+
+  .react-select__indicator-separator {
+    background-color: $color-gray-200;
+  }
+
+  .react-select__dropdown-indicator {
+    color: $color-gray-800;
+    padding: 0 0.625rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .react-select__clear-indicator {
+    color: $color-gray-800;
+    padding: 0 0.375rem;
+    &:hover { color: $alert-red-color; }
+  }
+
+  // ── Dropdown menu ────────────────────────────────────────
   .react-select__menu {
-    border-radius: $border-radius-sm;
-    margin-top: 0.25rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    z-index: 1000;
+    border-radius: $border-radius-md;
+    border: 1.5px solid $color-primary-light;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba($color-primary, 0.06);
+    margin-top: 4px;
+    z-index: 9999;
+    overflow: hidden;
+    animation: rsMenuFadeIn 0.15s ease;
+
+    @keyframes rsMenuFadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  .react-select__menu-list {
+    padding: 6px;
+    max-height: 240px;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+      background-color: $color-gray-200;
+      border-radius: 4px;
+    }
   }
 
   .react-select__option {
-    padding: 0.5rem 0.75rem;
+    font-size: $font-size-md;
+    color: $text-primary-color;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-bottom: 2px;
 
     &--is-focused {
-      background-color: rgba($color-primary, 0.1);
+      background-color: rgba($color-primary, 0.08);
+      color: $text-primary-color;
     }
 
     &--is-selected {
       background-color: $color-primary;
-      color: white;
+      color: $color-white;
+      font-weight: 600;
     }
   }
+
+  .react-select__menu-notice {
+    font-size: $font-size-md;
+    color: $color-gray-400;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  // ── Invalid state ────────────────────────────────────────
+  &.is-invalid .react-select__control {
+    border-color: $alert-red-color !important;
+    &--is-focused {
+      box-shadow: 0 0 0 3px rgba($alert-red-color, 0.1) !important;
+    }
+  }
+}
+
+// RTL
+html[dir="rtl"] {
+  .react-select__dropdown-indicator { padding: 0 0.625rem; }
 }
 
 // Responsive adjustments

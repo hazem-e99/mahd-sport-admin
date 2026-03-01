@@ -1,0 +1,499 @@
+@use '@/styles/variables' as *;
+
+.add-player-modal {
+  font-family: "Mahd Favorit Arabic", "Mahd Favorit Arabic Book", sans-serif !important;
+
+  .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid $color-gray-200;
+    padding: 1.25rem 1.5rem;
+    background-color: $color-white;
+
+    .modal-title {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-xl;
+      font-weight: 700;
+      color: $text-primary-color;
+    }
+
+    .btn-close {
+      opacity: 0.5;
+      transition: $transition;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+    background-color: #fafafa;
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid $color-gray-200;
+      margin: 1.25rem 0 0.5rem;
+    }
+
+    .kpi-section-title {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      font-weight: 700;
+      color: $color-primary;
+      margin-bottom: 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid $color-primary;
+      display: inline-block;
+      letter-spacing: 0.01em;
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid $color-gray-200;
+    padding: 1rem 1.5rem;
+    background-color: $color-white;
+    gap: 0.75rem;
+  }
+
+  // ── Labels ─────────────────────────────────────────
+  .form-label {
+    font-family: "Mahd Favorit Arabic", sans-serif !important;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-400;
+    margin-bottom: 0.375rem;
+    display: block;
+  }
+
+  // ── Shared input / select base ──────────────────────
+  %field-base {
+    font-family: "Mahd Favorit Arabic", sans-serif !important;
+    height: $input-height;
+    border: 1.5px solid $input-border-color;
+    border-radius: $border-radius-md;
+    font-size: $font-size-md;
+    color: $text-primary-color;
+    background-color: $color-white;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 0 0.875rem;
+    width: 100%;
+
+    &::placeholder {
+      color: $color-gray-800;
+      font-size: $font-size-md;
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+    }
+
+    &:focus {
+      border-color: $color-primary !important;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1) !important;
+      outline: none;
+    }
+
+    &.is-invalid {
+      border-color: $alert-red-color !important;
+      &:focus { box-shadow: 0 0 0 3px rgba($alert-red-color, 0.1) !important; }
+    }
+  }
+
+  .form-control { @extend %field-base; }
+  .form-select  { @extend %field-base; appearance: auto; }
+
+  // Remove number input spinners
+  input[type="number"] {
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  }
+
+  // ── React Select (country dropdown) ────────────────
+  .react-select-container {
+    .react-select__control {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      height: $input-height;
+      min-height: $input-height;
+      border: 1.5px solid $input-border-color !important;
+      border-radius: $border-radius-md !important;
+      box-shadow: none !important;
+      background-color: $color-white;
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover { border-color: $color-primary !important; }
+
+      &--is-focused {
+        border-color: $color-primary !important;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.1) !important;
+      }
+    }
+
+    .react-select__value-container {
+      padding: 0 0.875rem;
+      height: 100%;
+    }
+
+    .react-select__placeholder {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      color: $color-gray-800;
+      margin: 0;
+    }
+
+    .react-select__single-value {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      color: $text-primary-color;
+      margin: 0;
+    }
+
+    .react-select__input-container {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      margin: 0;
+      padding: 0;
+    }
+
+    .react-select__indicator-separator { background-color: $color-gray-200; }
+
+    .react-select__dropdown-indicator {
+      color: $color-gray-800;
+      padding: 0 0.5rem;
+      transition: color 0.2s ease;
+      &:hover { color: $color-primary; }
+    }
+
+    // ── Dropdown menu ──────────────────────────────
+    .react-select__menu {
+      border-radius: $border-radius-md;
+      border: 1.5px solid $color-primary-light;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 8px rgba($color-primary, 0.06);
+      margin-top: 4px;
+      z-index: 1055;
+      overflow: hidden;
+      animation: selectFadeIn 0.15s ease;
+
+      @keyframes selectFadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
+
+    .react-select__menu-list {
+      padding: 6px;
+      max-height: 220px;
+
+      &::-webkit-scrollbar { width: 4px; }
+      &::-webkit-scrollbar-track { background: transparent; }
+      &::-webkit-scrollbar-thumb {
+        background-color: $color-gray-200;
+        border-radius: 4px;
+      }
+    }
+
+    .react-select__option {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      color: $text-primary-color;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+
+      &--is-focused {
+        background-color: rgba($color-primary, 0.07);
+        color: $text-primary-color;
+      }
+
+      &--is-selected {
+        background-color: $color-primary;
+        color: $color-white;
+        font-weight: 600;
+      }
+    }
+
+    // No options message
+    .react-select__menu-notice {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      color: $color-gray-400;
+      padding: 10px 12px;
+    }
+  }
+
+  // ── Native select (sport / performance) ───────────
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%239DA4AE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+
+    option {
+      font-family: "Mahd Favorit Arabic", sans-serif !important;
+      font-size: $font-size-md;
+      color: $text-primary-color;
+      background-color: $color-white;
+      padding: 8px 12px;
+    }
+
+    html[dir="rtl"] & {
+      background-position: left 0.75rem center;
+      padding-right: 0.875rem;
+      padding-left: 2.5rem;
+    }
+  }
+
+  // ── Player Image Upload Field ───────────────────────
+  .img-upload-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .img-upload-trigger {
+      flex: 1;
+      border: 1.5px dashed $input-border-color;
+      border-radius: $border-radius-md;
+      background-color: $color-white;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      min-height: $input-height;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      &:hover {
+        border-color: $color-primary;
+        background-color: rgba($color-primary, 0.03);
+      }
+
+      &.has-file {
+        border-style: solid;
+        border-color: $color-primary;
+      }
+
+      .img-upload-placeholder {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 1rem;
+        width: 100%;
+        color: $color-gray-800;
+
+        svg { flex-shrink: 0; }
+
+        .img-placeholder-text {
+          font-size: $font-size-md;
+          color: $color-gray-400;
+          flex: 1;
+        }
+
+        .img-placeholder-hint {
+          font-size: $font-size-sm;
+          font-weight: 700;
+          color: $color-primary;
+          background-color: $color-primary-light;
+          padding: 2px 8px;
+          border-radius: 4px;
+          flex-shrink: 0;
+        }
+      }
+
+      .img-preview-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px;
+        width: 100%;
+
+        .img-preview-thumb {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: $border-radius-circle;
+          flex-shrink: 0;
+          border: 2px solid $color-primary-light;
+          background-color: $color-gray-300;
+        }
+
+        .img-preview-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+          flex: 1;
+
+          .img-file-name {
+            font-size: $font-size-md;
+            font-weight: 600;
+            color: $text-primary-color;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .img-change-hint {
+            font-size: $font-size-sm;
+            color: $color-primary;
+          }
+        }
+      }
+    }
+
+    .img-remove-btn {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid $color-gray-200;
+      background-color: $color-white;
+      color: $color-gray-400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+      padding: 0;
+
+      &:hover {
+        border-color: $alert-red-color;
+        color: $alert-red-color;
+        background-color: rgba($alert-red-color, 0.05);
+      }
+    }
+  }
+
+  // ── GIF Upload Field ────────────────────────────────
+  .gif-upload-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .gif-upload-trigger {
+      flex: 1;
+      border: 1.5px dashed $input-border-color;
+      border-radius: $border-radius-md;
+      background-color: $color-white;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+      min-height: $input-height;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      &:hover {
+        border-color: $color-primary;
+        background-color: rgba($color-primary, 0.03);
+      }
+
+      &.has-file {
+        border-style: solid;
+        border-color: $color-primary;
+      }
+
+      .gif-upload-placeholder {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 1rem;
+        width: 100%;
+        color: $color-gray-800;
+
+        svg { flex-shrink: 0; color: $color-gray-800; }
+
+        .gif-placeholder-text {
+          font-family: "Mahd Favorit Arabic", sans-serif !important;
+          font-size: $font-size-md;
+          color: $color-gray-400;
+          flex: 1;
+        }
+
+        .gif-placeholder-hint {
+          font-family: "Mahd Favorit Arabic", sans-serif !important;
+          font-size: $font-size-sm;
+          font-weight: 700;
+          color: $color-primary;
+          background-color: $color-primary-light;
+          padding: 2px 8px;
+          border-radius: 4px;
+          letter-spacing: 0.05em;
+          flex-shrink: 0;
+        }
+      }
+
+      .gif-preview-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px;
+        width: 100%;
+
+        .gif-preview-thumb {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 6px;
+          flex-shrink: 0;
+          border: 1px solid $color-gray-200;
+          background-color: $color-gray-300;
+        }
+
+        .gif-preview-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+          flex: 1;
+
+          .gif-file-name {
+            font-family: "Mahd Favorit Arabic", sans-serif !important;
+            font-size: $font-size-md;
+            font-weight: 600;
+            color: $text-primary-color;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .gif-change-hint {
+            font-family: "Mahd Favorit Arabic", sans-serif !important;
+            font-size: $font-size-sm;
+            color: $color-primary;
+          }
+        }
+      }
+    }
+
+    .gif-remove-btn {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid $color-gray-200;
+      background-color: $color-white;
+      color: $color-gray-400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+      padding: 0;
+
+      &:hover {
+        border-color: $alert-red-color;
+        color: $alert-red-color;
+        background-color: rgba($alert-red-color, 0.05);
+      }
+    }
+  }
+
+  // ── RTL ─────────────────────────────────────────────
+  html[dir="rtl"] & {
+    .react-select__dropdown-indicator { padding: 0 0.5rem; }
+  }
+}

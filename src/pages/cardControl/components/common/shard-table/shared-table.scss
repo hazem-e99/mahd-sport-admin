@@ -3,140 +3,115 @@
 .shared-table-container {
   overflow: hidden;
 
-  .rdt_TableHeader {
-    display: none;
-  }
-
-  .action-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    transition: background-color 0.2s;
-  }
-
-  tr:hover .action-button {
-    opacity: 1;
-  }
-
-  .action-button {
-    opacity: 0.7;
-  }
-
-  th {
-    padding: 8px;
-    background-color: $color-gray-100;
-    color: $color-gray-400;
-    text-align: left;
-    cursor: pointer;
-    user-select: none;
-
-    html[dir='rtl'] & {
-      text-align: right;
-    }
-  }
-
-  td {
-    padding: 8px;
-  }
-
-  .status-dot {
-    &__Active {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: $alert-green-color;
-      margin-inline-end: .5rem;
-    }
-
-    &__Not-Active {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: $alert-red-color;
-      margin-inline-end: .5rem;
-    }
-
-    &__Draft {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: $alert-yellow-color;
-      margin-inline-end: .5rem;
-    }
-
-    &__Closed {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: $color-gray-700;
-      margin-inline-end: .5rem;
-    }
-  }
-
-  .visibility-cell {
-    display: flex;
-    align-items: flex-start;
-    align-items: center;
-
-    .visibility-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 15px;
-
-      html[dir='rtl'] & {
-        margin-left: 15px;
-        margin-right: unset;
-      }
-    }
-  }
-
-  .actions-icons-container {
-    display: flex;
-
-    .action-icon {
-      cursor: pointer;
-      margin-inline-start: 5px;
-    }
-  }
-}
-
-.shared-table-container {
   table {
+    border-collapse: collapse;
+    width: 100%;
+
+    // ── Head ──────────────────────────────────────
     thead {
       border-top: 1px solid $btn-icon-border-color;
       border-bottom: 1px solid $btn-icon-border-color;
 
+      tr {
+        background-color: $color-gray-100;
+      }
+
       th {
-        font-weight: 500;
-        font-size: 15px;
+        font-family: "Mahd Favorit Arabic", sans-serif !important;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        color: $color-gray-400;
+        padding: 14px 20px;
+        text-align: left;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+
+        html[dir='rtl'] & { text-align: right; }
       }
     }
 
+    // ── Body ──────────────────────────────────────
     tbody {
       tr {
-
         border-bottom: 1px solid $btn-icon-border-color;
+        transition: background-color 0.15s ease;
+
+        &:hover { background-color: #fafafa; }
+        &:last-child { border-bottom: none; }
 
         td {
-          font-size: 13px;
-          font-weight: 500;
+          font-family: "Mahd Favorit Arabic", sans-serif !important;
+          font-size: $font-size-md;
+          font-weight: 400;
+          color: $text-primary-color;
+          padding: 14px 20px;
+          vertical-align: middle;
         }
       }
-
     }
   }
-}
 
-.reoder-icon {
-  display: flex;
-  align-items: center;
-}
+  // ── Status dots ──────────────────────────────────
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
 
-.actions-icons-container {
-  svg {
-    width: 30px;
-    height: 30px;
+    &--Active   { background-color: $alert-green-color; }
+    &--InActive { background-color: $alert-red-color; }
+    &--Draft    { background-color: $alert-yellow-color; }
+    &--Closed   { background-color: $color-gray-700; }
+  }
+
+  // ── Visibility cell ──────────────────────────────
+  .visibility-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .visibility-dot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // ── Actions ──────────────────────────────────────
+  .actions-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .action-icon {
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+
+      &:hover { opacity: 0.75; }
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  // ── Reorder icon ─────────────────────────────────
+  .reoder-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $color-gray-800;
+  }
+
+  // ── Empty / Loading state ─────────────────────────
+  .text-center {
+    padding: 40px 20px;
+    font-family: "Mahd Favorit Arabic", sans-serif !important;
+    font-size: $font-size-md;
+    color: $color-gray-400;
   }
 }

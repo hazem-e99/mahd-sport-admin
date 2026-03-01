@@ -250,19 +250,24 @@ const CardControl: React.FC = () => {
 
   const customCellRender = useCallback((col: any, player: PlayerCard) => {
     switch (col.key) {
-      case "orderIndex":
-        return <td key={col.key}>{data.indexOf(player) + 1}</td>;
+      case "playerImg":
+        return (
+          <td key={col.key}>
+            <div className="player-avatar-cell">
+              <img
+                src={player.photoUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${player.fullNameEn}`}
+                alt={player.fullNameEn}
+                className="player-avatar-img"
+              />
+            </div>
+          </td>
+        );
 
       case "player":
         return (
           <td key={col.key}>
-            <div className="employee-info">
-              <div className="avatar">
-                <img src={player.photoUrl || ""} alt={player.fullNameEn} />
-              </div>
-              <div className="employee-details">
-                <p className="name">{language === 'ar' ? player.fullNameAr : player.fullNameEn}</p>
-              </div>
+            <div className="employee-details">
+              <p className="name">{language === 'ar' ? player.fullNameAr : player.fullNameEn}</p>
             </div>
           </td>
         );
@@ -328,7 +333,7 @@ const CardControl: React.FC = () => {
   }, [data, language, getValue, handleStatusToggle]);
 
   const columns = useMemo(() => [
-    { key: "orderIndex", label: getValue("#") },
+    { key: "playerImg", label: getValue("player_img") },
     { key: "player", label: getValue("player_name") },
     { key: "sport", label: getValue("sport") },
     { key: "playerNumber", label: getValue("player_number") },

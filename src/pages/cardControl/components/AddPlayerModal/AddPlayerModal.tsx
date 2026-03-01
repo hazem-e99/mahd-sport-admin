@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useLanguage } from '../../context/languageContext';
 import type { PlayerCard } from '../../types/card-control.type';
 import SelectController from '@/components/common/SelectController/selectController';
 import { COUNTRIES } from '@/utils/countries';
+import UploadModal from '../../pages/UploadModal/UploadModal';
+import './AddPlayerModal.scss';
 
 interface AddPlayerModalProps {
     show: boolean;
@@ -15,44 +17,44 @@ interface AddPlayerModalProps {
 
 const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, player }) => {
     const { getValue } = useLanguage();
-    const { register, handleSubmit, reset, formState: { errors }, control, setValue, watch } = useForm<PlayerCard>();
+    const { register, handleSubmit, reset, formState: { errors }, control, setValue, watch, trigger, clearErrors } = useForm<PlayerCard>();
 
     const selectedCountry = watch("country");
+    const photoUrl = watch("photoUrl");
+    const gifUrl = watch("kpi.skillVideoUrl");
+
+    const [showImgUpload, setShowImgUpload] = useState(false);
+    const [showGifUpload, setShowGifUpload] = useState(false);
+    const [imgFileName, setImgFileName] = useState("");
+    const [gifFileName, setGifFileName] = useState("");
 
     useEffect(() => {
         if (player) {
             reset(player);
+            if (player.kpi?.skillVideoUrl) {
+                const parts = player.kpi.skillVideoUrl.split('/');
+                setGifFileName(parts[parts.length - 1] || '');
+            }
+            if (player.photoUrl) {
+                const parts = player.photoUrl.split('/');
+                setImgFileName(parts[parts.length - 1] || '');
+            }
         } else {
             reset({
-                id: "",
-                fullNameEn: "",
-                fullNameAr: "",
-                sport: "",
-                playerNumber: "",
-                position: "",
-                country: "",
-                countryCode: "",
-                performance: "silver",
-                photoUrl: "",
-                status: true,
-                kpi: {
-                    cognition: 0,
-                    technical: 0,
-                    physical: 0,
-                    psychology: 0,
-                    medical: 0,
-                    skillVideoUrl: ""
-                }
+                id: "", fullNameEn: "", fullNameAr: "", sport: "",
+                playerNumber: "", position: "", country: "", countryCode: "",
+                performance: "silver", photoUrl: "", status: true,
+                kpi: { cognition: 0, technical: 0, physical: 0, psychology: 0, medical: 0, skillVideoUrl: "" }
             });
+            setImgFileName("");
+            setGifFileName("");
         }
     }, [player, reset]);
 
     useEffect(() => {
         if (selectedCountry) {
             const countryEntry = COUNTRIES.find(c => c.label === selectedCountry);
-            if (countryEntry) {
-                setValue("countryCode", countryEntry.value);
-            }
+            if (countryEntry) setValue("countryCode", countryEntry.value);
         }
     }, [selectedCountry, setValue]);
 
@@ -66,147 +68,233 @@ const AddPlayerModal: React.FC<AddPlayerModalProps> = ({ show, onClose, onSave, 
     };
 
     return (
-        <Modal show={show} onHide={onClose} size="lg" centered className="add-player-modal">
-            <Modal.Header closeButton>
-                <Modal.Title>{player ? getValue("player_details") : getValue("add_player")}</Modal.Title>
-            </Modal.Header>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
-                    <Row>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("player_name")} (English)</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter name in English"
-                                    {...register("fullNameEn", { required: true })}
-                                    isInvalid={!!errors.fullNameEn}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("player_name")} (Arabic)</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="ادخل الاسم بالعربية"
-                                    {...register("fullNameAr", { required: true })}
-                                    isInvalid={!!errors.fullNameAr}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+        <>
+            <Modal show={show} onHide={onClose} size="lg" centered className="add-player-modal">
+                <Modal.Header closeButton>
+                    <Modal.Title>{player ? getValue("player_details") : getValue("add_player")}</Modal.Title>
+                </Modal.Header>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
 
-                    <Row>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("sport")}</Form.Label>
-                                <Form.Select {...register("sport", { required: true })} isInvalid={!!errors.sport}>
-                                    <option value="">{getValue("select")}</option>
-                                    <option value="football">{getValue("football")}</option>
-                                    <option value="athletics">{getValue("athletics")}</option>
-                                    <option value="judo">{getValue("judo")}</option>
-                                    <option value="tennis">{getValue("tennis")}</option>
-                                    <option value="taekwondo">{getValue("taekwondo")}</option>
-                                    <option value="swimming">{getValue("swimming")}</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("player_number")}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    {...register("playerNumber", { required: true })}
-                                    isInvalid={!!errors.playerNumber}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("position")}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    {...register("position", { required: true })}
-                                    isInvalid={!!errors.position}
-                                />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                        {/* ── Player Image ─────────────────────────── */}
+                        <Row className="g-3 mb-2">
+                            <Col md={12}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_image") || "Player Image"}</Form.Label>
+                                    <div className="img-upload-field">
+                                        <div
+                                            className={`img-upload-trigger ${photoUrl ? 'has-file' : ''}`}
+                                            onClick={() => setShowImgUpload(true)}
+                                        >
+                                            {photoUrl ? (
+                                                <div className="img-preview-wrapper">
+                                                    <img src={photoUrl} alt="Player" className="img-preview-thumb" />
+                                                    <div className="img-preview-info">
+                                                        <span className="img-file-name">{imgFileName || getValue("player_image")}</span>
+                                                        <span className="img-change-hint">{getValue("click_to_change") || "Click to change"}</span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="img-upload-placeholder">
+                                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                        <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5"/>
+                                                        <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                                    </svg>
+                                                    <span className="img-placeholder-text">{getValue("upload_player_img") || "Upload Player Image"}</span>
+                                                    <span className="img-placeholder-hint">IMG</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {photoUrl && (
+                                            <button type="button" className="img-remove-btn"
+                                                onClick={(e) => { e.stopPropagation(); setValue("photoUrl", ""); setImgFileName(""); }}
+                                                title={getValue("remove") || "Remove"}>
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                                </svg>
+                                            </button>
+                                        )}
+                                    </div>
+                                    <input type="hidden" {...register("photoUrl")} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
-                    <Row>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("country")}</Form.Label>
-                                <SelectController
-                                    control={control}
-                                    name="country"
-                                    options={COUNTRIES}
-                                    required
-                                    getOptionLabel={(option: any) => option.label}
-                                    getOptionValue={(option: any) => option.label}
-                                    placeholder={getValue("select")}
-                                />
-                            </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("performance")}</Form.Label>
-                                <Form.Select {...register("performance", { required: true })}>
-                                    <option value="diamond">{getValue("diamond")}</option>
-                                    <option value="gold">{getValue("gold")}</option>
-                                    <option value="silver">{getValue("silver")}</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                        <hr className="section-divider" />
 
-                    <hr />
-                    <h5>KPIs (%)</h5>
-                    <Row>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("cognition")}</Form.Label>
-                                <Form.Control type="number" {...register("kpi.cognition", { min: 0, max: 100 })} />
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("technical")}</Form.Label>
-                                <Form.Control type="number" {...register("kpi.technical", { min: 0, max: 100 })} />
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("physical")}</Form.Label>
-                                <Form.Control type="number" {...register("kpi.physical", { min: 0, max: 100 })} />
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("psychology")}</Form.Label>
-                                <Form.Control type="number" {...register("kpi.psychology", { min: 0, max: 100 })} />
-                            </Form.Group>
-                        </Col>
-                        <Col md={4}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>{getValue("medical")}</Form.Label>
-                                <Form.Control type="number" {...register("kpi.medical", { min: 0, max: 100 })} />
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                        {/* ── Names ────────────────────────────────── */}
+                        <Row className="g-3">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_name")} (English)</Form.Label>
+                                    <Form.Control type="text" placeholder="Enter name in English"
+                                        {...register("fullNameEn", { required: true })} isInvalid={!!errors.fullNameEn} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_name")} (Arabic)</Form.Label>
+                                    <Form.Control type="text" placeholder="ادخل الاسم بالعربية"
+                                        {...register("fullNameAr", { required: true })} isInvalid={!!errors.fullNameAr} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>{getValue("skill_video")} (URL)</Form.Label>
-                        <Form.Control type="text" {...register("kpi.skillVideoUrl")} placeholder="https://..." />
-                    </Form.Group>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={onClose}>{getValue("cancel")}</Button>
-                    <Button variant="primary" type="submit" className="main-button active">{getValue("save")}</Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
+                        {/* ── Sport / Number / Position ─────────────── */}
+                        <Row className="g-3 mt-1">
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("sport")}</Form.Label>
+                                    <Form.Select {...register("sport", { required: true })} isInvalid={!!errors.sport}>
+                                        <option value="">{getValue("select")}</option>
+                                        <option value="football">{getValue("football")}</option>
+                                        <option value="athletics">{getValue("athletics")}</option>
+                                        <option value="judo">{getValue("judo")}</option>
+                                        <option value="tennis">{getValue("tennis")}</option>
+                                        <option value="taekwondo">{getValue("taekwondo")}</option>
+                                        <option value="swimming">{getValue("swimming")}</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("player_number")}</Form.Label>
+                                    <Form.Control type="text"
+                                        {...register("playerNumber", { required: true })} isInvalid={!!errors.playerNumber} />
+                                </Form.Group>
+                            </Col>
+                            <Col md={4}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("position")}</Form.Label>
+                                    <Form.Control type="text"
+                                        {...register("position", { required: true })} isInvalid={!!errors.position} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        {/* ── Country / Performance ─────────────────── */}
+                        <Row className="g-3 mt-1">
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("country")}</Form.Label>
+                                    <SelectController
+                                        control={control} name="country" options={COUNTRIES} required
+                                        getOptionLabel={(option: any) => option.label}
+                                        getOptionValue={(option: any) => option.label}
+                                        placeholder={getValue("select")}
+                                        menuPlacement="bottom"
+                                        menuPosition="fixed"
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("performance")}</Form.Label>
+                                    <Form.Select {...register("performance", { required: true })}>
+                                        <option value="diamond">{getValue("diamond")}</option>
+                                        <option value="gold">{getValue("gold")}</option>
+                                        <option value="silver">{getValue("silver")}</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <hr className="section-divider mt-4" />
+                        <span className="kpi-section-title">KPIs (%)</span>
+
+                        {/* ── KPIs ──────────────────────────────────── */}
+                        <Row className="g-3 mt-1">
+                            {[
+                                { key: "kpi.cognition", label: getValue("cognition") },
+                                { key: "kpi.technical", label: getValue("technical") },
+                                { key: "kpi.physical", label: getValue("physical") },
+                                { key: "kpi.psychology", label: getValue("psychology") },
+                                { key: "kpi.medical", label: getValue("medical") },
+                            ].map(({ key, label }) => (
+                                <Col md={4} key={key}>
+                                    <Form.Group>
+                                        <Form.Label>{label}</Form.Label>
+                                        <Form.Control type="number" min={0} max={100}
+                                            {...register(key as any, { min: 0, max: 100 })} />
+                                    </Form.Group>
+                                </Col>
+                            ))}
+                        </Row>
+
+                        {/* ── Skill GIF ─────────────────────────────── */}
+                        <Row className="mt-3">
+                            <Col md={12}>
+                                <Form.Group>
+                                    <Form.Label>{getValue("skill_gif") || "Skill GIF"}</Form.Label>
+                                    <div className="gif-upload-field">
+                                        <div className={`gif-upload-trigger ${gifUrl ? 'has-file' : ''}`}
+                                            onClick={() => setShowGifUpload(true)}>
+                                            {gifUrl ? (
+                                                <div className="gif-preview-wrapper">
+                                                    <img src={gifUrl} alt="Skill GIF" className="gif-preview-thumb" />
+                                                    <div className="gif-preview-info">
+                                                        <span className="gif-file-name">{gifFileName || getValue("skill_gif")}</span>
+                                                        <span className="gif-change-hint">{getValue("click_to_change") || "Click to change"}</span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="gif-upload-placeholder">
+                                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                                        <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        <path d="M3 15V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    </svg>
+                                                    <span className="gif-placeholder-text">{getValue("upload_gif") || "Upload Skill GIF"}</span>
+                                                    <span className="gif-placeholder-hint">GIF</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {gifUrl && (
+                                            <button type="button" className="gif-remove-btn"
+                                                onClick={(e) => { e.stopPropagation(); setValue("kpi.skillVideoUrl", ""); setGifFileName(""); }}
+                                                title={getValue("remove") || "Remove"}>
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                                </svg>
+                                            </button>
+                                        )}
+                                    </div>
+                                    <input type="hidden" {...register("kpi.skillVideoUrl")} />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={onClose}>{getValue("cancel")}</Button>
+                        <Button variant="primary" type="submit" className="main-button active">{getValue("save")}</Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
+
+            {/* Player Image Upload */}
+            <UploadModal
+                show={showImgUpload}
+                handleClose={() => setShowImgUpload(false)}
+                setFileName={setImgFileName}
+                setValue={(name, value) => setValue(name as any, value)}
+                clearErrors={clearErrors as any}
+                trigger={trigger as any}
+                name="photoUrl"
+                accept="image/*"
+            />
+
+            {/* Skill GIF Upload */}
+            <UploadModal
+                show={showGifUpload}
+                handleClose={() => setShowGifUpload(false)}
+                setFileName={setGifFileName}
+                setValue={(name, value) => setValue(name as any, value)}
+                clearErrors={clearErrors as any}
+                trigger={trigger as any}
+                name="kpi.skillVideoUrl"
+                accept="image/gif"
+            />
+        </>
     );
 };
 
